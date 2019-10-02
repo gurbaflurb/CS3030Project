@@ -1,9 +1,0 @@
-* Discord Bot
-	*
-* Markov chain idea generator
-	*
-* Bot that orders food for you
-	*
-* gamecube emulator slippi
-	*
-* 
