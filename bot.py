@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 
 import discord
+import os
 
 from dotenv import load_dotenv
 
@@ -20,7 +21,5 @@ async def on_message(message):
 
 	if message.content.startswith('$hello'):
 		await message.channel.send('Hello!')
-
-print('Please enter the Authentication Token')
 
 client.run(token)
