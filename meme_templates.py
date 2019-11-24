@@ -14,19 +14,20 @@ class meme_templates():
     path, a font, text regions, and image regions.
     """
 
-    temp_image_name = "temp.jpg"
     load_dotenv()
-    image_dir    = os.getenv('MEME_TEMPLATE_DIR')
-    default_font = os.getenv('DEFAULT_FONT')
+    image_dir       = os.getenv('MEME_TEMPLATE_DIR')
+    default_font    = os.getenv('DEFAULT_FONT')
+    temp_image_name = os.getenv('TEMP_IMAGE')
 
     def __init__(
-            self, name, img, fnt=default_font, 
+            self, name, img_path, fnt_path=default_font, 
             text_regions=None, image_regions=None):
 
+        # Make sure files exist, and types are correct
         assert isinstance(name, str)
-        assert isinstance(img, str)
-        assert isinstance(fnt, str) or fnt == None
-        assert os.path.exists(f'./{self.image_dir}/{img}')
+        assert isinstance(img_path, str)
+        assert isinstance(fnt_path, str) or fnt_path == None
+        assert os.path.exists(f'./{self.image_dir}/{img_path}')
 
         if isinstance(text_regions, list):
             for i in text_regions: 
@@ -40,14 +41,15 @@ class meme_templates():
         else:
             assert image_regions == None
 
+        # assign instance variables
         self.name          = name
-        self.img           = './' + self.image_dir + '/' +  img
-        self.fnt           = fnt
+        self.img_path      = './' + self.image_dir + '/' +  img_path
+        self.fnt_path      = fnt_path
         self.text_regions  = text_regions
         self.image_regions = image_regions
         
 
-    def format_text(self, image, draw, text, reg):
+    def format_text(self, img_obj, draw, text, reg):
         """ 
         Calculate the font size and the wrap the text to fit inside the
         designated dimensions.  Return font, and wrapped text
@@ -60,43 +62,43 @@ class meme_templates():
         text_height, text_width = 0, 0
 
         # calculate maximum reasonable font size
-        image_width, image_height = image.size
+        img_width, img_height = img_obj.size
+        fnt_size = int(img_height * 0.12)
 
 
         # fit text inside box
         while True:
-            meme_font = ImageFont.truetype(self.fnt, font_size)
+            fnt_obj = ImageFont.truetype(self.fnt_path, fnt_size)
             line, wrapped_text = "", ""
 
             for word in text.split():
                 # line with next word
                 line_new = line + " " + word
-                line_width, temp = draw.textsize(line_new, font=meme_font)
-
+                line_width, temp = draw.textsize(line_new, font=fnt_obj)
+                
                 if line_width <= reg_width:
                     line = line_new
                 else:
+                    # if line is longer than allowed add a new line
                     wrapped_text += line + "\n"
                     line = word 
 
-                # text has to many lines, decrease font size
                 temp, text_height = draw.multiline_textsize(
-                        wrapped_text, font=meme_font)
+                        wrapped_text, font=fnt_obj)
 
+                # Text has to many lines, decrease font size
                 if text_height > reg_height:
-                    font_size = int(font_size * 0.98)
+                    fnt_size = int(fnt_size * 0.98)
                     break;
                 # Text is to long
-                if font_size <= 4:
-                    print("error, one or more text fields too long")
-                    return
+                assert fnt_size <= 4:
 
             wrapped_text += line
             temp, text_height = draw.multiline_textsize(
-                    wrapped_text, font=meme_font)
+                    wrapped_text, font=fnt_obj)
 
             if text_height <= reg_height:
-                return wrapped_text, meme_font
+                return wrapped_text, fnt_obj
 
 
 
@@ -105,19 +107,19 @@ class meme_templates():
         Create a meme inserting the specified text, or image onto the meme
         template image
         """
-        img_obj = Image.open(self.img)
+        img_obj = Image.open(self.img_path)
         draw = ImageDraw.Draw(img_obj) 
 
         i = 0
         for arg in args:
             # get formated text, and its size
-            text, meme_font = self.format_text(img_obj, draw, arg, i)
+            text, fnt_obj = self.format_text(img_obj, draw, arg, i)
 
             # draw text on image
             draw.rectangle(list(self.text_regions[i]), outline="red")
             draw.multiline_text(
                 (self.text_regions[i][0], self.text_regions[i][1]),
-                text, font=meme_font, align="center", fill="black")
+                text, font=fnt_obj, align="center", fill="black")
             i += 1
 
         img_obj.save(self.temp_image_name)
