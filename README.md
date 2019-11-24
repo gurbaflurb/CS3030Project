@@ -9,3 +9,6 @@ Our project for this semester was to build a Discord bot using python. Our bot w
 - Then you can run the command `python3 bot.py` on linux, or `py -3 bot.py` on Windows.
 - When prompted input the token you have and the bot will be online and ready to use.
 
+
+## Todo
+* add default font env variable
