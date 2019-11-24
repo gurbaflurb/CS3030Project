@@ -1,6 +1,5 @@
-import shelve
 import os
-import textwrap
+import shelve
 
 from PIL import Image
 from PIL import ImageFont
@@ -10,6 +9,10 @@ from dotenv import load_dotenv
 
 
 class meme_templates():
+    """
+    Defines a meme template, template consists of a name, meme template image
+    path, a font, text regions, and image regions.
+    """
 
     temp_image_name = "temp.jpg"
     load_dotenv()
@@ -45,7 +48,10 @@ class meme_templates():
         
 
     def format_text(self, image, draw, text, reg):
-
+        """ 
+        Calculate the font size and the wrap the text to fit inside the
+        designated dimensions.  Return font, and wrapped text
+        """
         # size of text block
         reg_width  = self.text_regions[reg][2] - self.text_regions[reg][0]
         reg_height = self.text_regions[reg][3] - self.text_regions[reg][1]
@@ -55,15 +61,12 @@ class meme_templates():
 
         # calculate maximum reasonable font size
         image_width, image_height = image.size
-        font_size = int(image_height * 0.12) 
 
-        wrapped_text=""
 
         # fit text inside box
         while True:
             meme_font = ImageFont.truetype(self.fnt, font_size)
-            line = ""
-            wrapped_text=""
+            line, wrapped_text = "", ""
 
             for word in text.split():
                 # line with next word
@@ -93,13 +96,15 @@ class meme_templates():
                     wrapped_text, font=meme_font)
 
             if text_height <= reg_height:
-                break
+                return wrapped_text, meme_font
 
-        return wrapped_text, meme_font
 
 
     def create_meme(self, *args):
-
+        """
+        Create a meme inserting the specified text, or image onto the meme
+        template image
+        """
         img_obj = Image.open(self.img)
         draw = ImageDraw.Draw(img_obj) 
 
