@@ -23,30 +23,15 @@ class meme_templates():
     temp_image_name = os.getenv('TEMP_IMAGE')
 
     def __init__(
-            self, name, img_path, fnt_path=default_font, 
+            self, name, img_name, fnt_path=default_font, 
             text_regions=[], image_regions=[]):
 
         # Make sure files exist, and types are correct
-        assert isinstance(name, str)
-        assert isinstance(img_path, str)
-        assert isinstance(fnt_path, str) or fnt_path == None
-        assert os.path.exists(f'./{self.template_dir}/{img_path}')
-
-        if isinstance(text_regions, list):
-            for i in text_regions: 
-                assert isinstance(i,  tuple)
-        else:
-            assert text_regions == None
-
-        if isinstance(image_regions, list):
-            for i in image_regions: 
-                assert isinstance(i, tuple)
-        else:
-            assert image_regions == None
+        assert os.path.exists(f'./{self.template_dir}/{img_name}'), "FileNotExsist"
 
         # assign instance variables
         self.name          = name
-        self.img_path      = './' + self.template_dir + '/' +  img_path
+        self.img_path      = './' + self.template_dir + '/' +  img_name
         self.fnt_path      = fnt_path
         self.text_regions  = text_regions
         self.image_regions = image_regions

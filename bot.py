@@ -75,19 +75,18 @@ async def russian_roulete(ctx, *args):
 @bot.command(name="addimg")
 async def add_img(ctx, url):
 
-    urllib.request.urlretrieve(url, "temp.jpg")
-    file_type = imghdr.what("temp.jpg")
+    try:
+        urllib.request.urlretrieve(url, "temp.jpg")
+        file_type = imghdr.what("temp.jpg")
+        assert file_type == "None", "file is Not image type"
 
-    name = uuid.uuid1()
-    name = f"{image_dir}/{str(name)}.{file_type}"
+        name = uuid.uuid1()
+        name = f"{image_dir}/{str(name)}.{file_type}"
 
-
-    if file_type != None:
         print("adding image: " + str(name))
         os.rename("temp.jpg", name)
-    else:
+    except AssertionError:
         await ctx.channel.send("Incorrect file type")
-        os.remove(name)
 
 
 @bot.command(name="woaj")
