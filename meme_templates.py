@@ -1,5 +1,7 @@
 import os
+import os.path
 import shelve
+import random
 
 from PIL import Image
 from PIL import ImageFont
@@ -15,19 +17,20 @@ class meme_templates():
     """
 
     load_dotenv()
-    image_dir       = os.getenv('MEME_TEMPLATE_DIR')
+    template_dir    = os.getenv('MEME_TEMPLATE_DIR')
+    image_dir       = os.getenv('IMAGE_DIR')
     default_font    = os.getenv('DEFAULT_FONT')
     temp_image_name = os.getenv('TEMP_IMAGE')
 
     def __init__(
             self, name, img_path, fnt_path=default_font, 
-            text_regions=None, image_regions=None):
+            text_regions=[], image_regions=[]):
 
         # Make sure files exist, and types are correct
         assert isinstance(name, str)
         assert isinstance(img_path, str)
         assert isinstance(fnt_path, str) or fnt_path == None
-        assert os.path.exists(f'./{self.image_dir}/{img_path}')
+        assert os.path.exists(f'./{self.template_dir}/{img_path}')
 
         if isinstance(text_regions, list):
             for i in text_regions: 
@@ -43,7 +46,7 @@ class meme_templates():
 
         # assign instance variables
         self.name          = name
-        self.img_path      = './' + self.image_dir + '/' +  img_path
+        self.img_path      = './' + self.template_dir + '/' +  img_path
         self.fnt_path      = fnt_path
         self.text_regions  = text_regions
         self.image_regions = image_regions
@@ -91,7 +94,8 @@ class meme_templates():
                     fnt_size = int(fnt_size * 0.98)
                     break;
                 # Text is to long
-                assert fnt_size <= 4:
+                if (fnt_size <= 4):
+                    pass
 
             wrapped_text += line
             temp, text_height = draw.multiline_textsize(
@@ -111,16 +115,30 @@ class meme_templates():
         draw = ImageDraw.Draw(img_obj) 
 
         i = 0
-        for arg in args:
+        for region in self.text_regions:
             # get formated text, and its size
-            text, fnt_obj = self.format_text(img_obj, draw, arg, i)
+            text, fnt_obj = self.format_text(img_obj, draw, "sample text", i)
 
-            # draw text on image
-            draw.rectangle(list(self.text_regions[i]), outline="red")
+            #draw.rectangle(list(self.text_regions[i]), outline="red")
             draw.multiline_text(
                 (self.text_regions[i][0], self.text_regions[i][1]),
                 text, font=fnt_obj, align="center", fill="black")
             i += 1
+
+        images =\
+            [f for f in os.listdir(self.image_dir) 
+            if os.path.isfile(os.path.join(self.image_dir, f))]
+
+        # paste images onto template
+        for region in self.image_regions:
+            rand = os.path.join(self.image_dir, random.choice(images)) 
+            rand_img = Image.open(rand) 
+
+            width  = region[2] - region[0]
+            height = region[3] - region[1]
+
+            rand_img = rand_img.resize((width,height))
+            img_obj.paste(rand_img, (region[0], region[1]))
 
         img_obj.save(self.temp_image_name)
         return self.temp_image_name
@@ -134,4 +152,8 @@ two_buttons = meme_templates(
     "two-buttons", "two-buttons.jpg", 
     text_regions=[(62,84,230,170), (260,50,448,126)])
 
-two_buttons.create_meme("test", "word test bacon eggs pizzzzzza")
+drake = meme_templates(
+    "drake", "drake.jpg", 
+    image_regions=[(601,0,1197,591), (601,592,1197,1197)])
+
+drake.create_meme()

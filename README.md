@@ -11,4 +11,6 @@ Our project for this semester was to build a Discord bot using python. Our bot w
 
 
 ## Todo
-* add default font env variable
+* save in shelve module
+* better error handling (output errors to discord)
+* use env variables for image and template directories
