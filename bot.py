@@ -8,10 +8,6 @@ import urllib.request
 import uuid
 import imghdr
 
-from PIL import Image
-from PIL import ImageFont
-from PIL import ImageDraw
-
 from meme_templates import *
 from dotenv import load_dotenv
 
