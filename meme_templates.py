@@ -105,7 +105,6 @@ class meme_templates():
                 return wrapped_text, fnt_obj
 
 
-
     def create_meme(self, *args):
         """
         Create a meme inserting the specified text, or image onto the meme
@@ -120,7 +119,7 @@ class meme_templates():
 
             #draw.rectangle(list(self.text_regions[i]), outline="red")
             draw.multiline_text(
-                (self.regions[0], self.regions[1]),
+                (regions[0], regions[1]),
                 text, font=fnt_obj, align="center", fill="black")
 
         images =\
@@ -153,5 +152,9 @@ two_buttons = meme_templates(
 drake = meme_templates(
     "drake", "drake.jpg", 
     image_regions=[(601,0,1197,591), (601,592,1197,1197)])
+
+#database = shelve.open('memes.db')
+#database[two_buttons.name] = two_buttons
+#database[drake.name] = drake
 
 drake.create_meme()

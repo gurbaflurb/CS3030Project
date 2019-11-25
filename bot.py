@@ -7,6 +7,7 @@ from os.path import isfile
 import urllib.request
 import uuid
 import imghdr
+import shelve
 
 from meme_templates import *
 from dotenv import load_dotenv
@@ -19,6 +20,8 @@ template_dir    = os.getenv('MEME_TEMPLATE_DIR')
 image_dir       = os.getenv('IMAGE_DIR')
 temp_image_name = os.getenv('TEMP_IMAGE')
 
+memedb = shelve.open('memes.db')
+
 # create bot object (subclass of client object)
 bot = commands.Bot(command_prefix='!')
 client = discord.Client()
@@ -29,7 +32,7 @@ async def on_ready():
     print(f'{bot.user.name} has connected to Discord!')
 
 
-@bot.command(name="meme")
+@bot.command(name="textmeme")
 async def send_pic(ctx, *args):
     text_box1 = ""
     text_box2 = ""
@@ -49,15 +52,16 @@ async def send_pic(ctx, *args):
     await ctx.channel.send(file=discord.File(temp_image_name))
 
 
-@bot.command(name="drake")
-async def drake(ctx, *args):
-    drake = meme_templates(
-        "drake", "drake.jpg", 
-        image_regions=[(601,0,1197,591), (601,592,1197,1197)])
+@bot.command(name="meme")
+async def drake(ctx, meme_name="drake"):
 
-    drake.create_meme()
-    print(f'sending drake...')
-    await ctx.channel.send(file=discord.File(temp_image_name))
+    try:
+        meme_obj = memedb[meme_name]
+        meme_obj.create_meme()
+        print('sending drake...')
+        await ctx.channel.send(file=discord.File(temp_image_name))
+    except KeyError:
+        await ctx.channel.send(f"meme \"{meme_name}\" does not exist")
 
 
 @bot.command(name="rr")
