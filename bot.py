@@ -16,11 +16,12 @@ from meme_templates import *
 from dotenv import load_dotenv
 
 
-
 # load environment variables (relavent ones are stored in .env)
 load_dotenv()
-token        = os.getenv('DISCORD_TOKEN')
-template_dir = os.getenv('MEME_TEMPLATE_DIR')
+token           = os.getenv('DISCORD_TOKEN')
+template_dir    = os.getenv('MEME_TEMPLATE_DIR')
+image_dir       = os.getenv('IMAGE_DIR')
+temp_image_name = os.getenv('TEMP_IMAGE')
 
 # create bot object (subclass of client object)
 bot = commands.Bot(command_prefix='!')
@@ -49,7 +50,7 @@ async def send_pic(ctx, *args):
     two_buttons.create_meme(text_box1,text_box2)
 
     print(f'sending meme...')
-    await ctx.channel.send(file=discord.File('temp.jpg'))
+    await ctx.channel.send(file=discord.File(temp_image_name))
 
 
 @bot.command(name="drake")
@@ -60,7 +61,7 @@ async def drake(ctx, *args):
 
     drake.create_meme()
     print(f'sending drake...')
-    await ctx.channel.send(file=discord.File('temp.jpg'))
+    await ctx.channel.send(file=discord.File(temp_image_name))
 
 
 @bot.command(name="rr")
@@ -68,10 +69,7 @@ async def russian_roulete(ctx, *args):
     randnum = random.randint(0,5)
     print(ctx.author)
 
-    if ctx.author.name == "Hayaikawa Blacky Uzi | NW":
-        await ctx.channel.send("🔫 ***BANG*** see ya furry" + ctx.author.mention)
-        await ctx.guild.kick(ctx.author)
-    elif randnum == 0:
+    if randnum == 0:
         await ctx.channel.send("🔫 ***BANG*** see ya " + ctx.author.mention)
         await ctx.guild.kick(ctx.author)
     else:
@@ -85,7 +83,7 @@ async def add_img(ctx, url):
     file_type = imghdr.what("temp.jpg")
 
     name = uuid.uuid1()
-    name = "images/" + str(name) + f".{file_type}"
+    name = f"{image_dir}/{str(name)}.{file_type}"
 
 
     if file_type != None:
@@ -98,7 +96,7 @@ async def add_img(ctx, url):
 
 @bot.command(name="woaj")
 async def woaj(ctx):
-    await ctx.channel.send(file=discord.File('images/woaj.jpg'))
+    await ctx.channel.send(file=discord.File(f'{image_dir}/woaj.jpg'))
 
 bot.run(token)
 
