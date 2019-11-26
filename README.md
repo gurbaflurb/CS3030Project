@@ -11,5 +11,5 @@ Our project for this semester was to build a Discord bot using python. Our bot w
 
 
 ## Todo
-* save in shelve module
-* better error handling (output errors to discord)
+* better error handling need error classes
+* format long strings in text regions better

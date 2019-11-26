@@ -10,7 +10,7 @@ from PIL import ImageDraw
 from dotenv import load_dotenv
 
 
-class meme_templates():
+class MemeTemplates():
     """
     Defines a meme template, template consists of a name, meme template image
     path, a font, text regions, and image regions.
@@ -48,18 +48,19 @@ class meme_templates():
             self.fnt_path      = fnt_path
             self.text_regions  = text_regions
             self.image_regions = image_regions
+
         except AssertionError:
             print("File does not exist")
         
 
-    def format_text(self, img_obj, draw, text, reg):
+    def format_text(self, img_obj, draw, text, region):
         """ 
         Calculate the font size and the wrap the text to fit inside the
         designated dimensions.  Return font, and wrapped text
         """
         # size of text block
-        reg_width  = self.text_regions[reg][2] - self.text_regions[reg][0]
-        reg_height = self.text_regions[reg][3] - self.text_regions[reg][1]
+        reg_width  = region[2] - region[0]
+        reg_height = region[3] - region[1]
 
         # init values
         text_height, text_width = 0, 0
@@ -99,27 +100,29 @@ class meme_templates():
             wrapped_text += line
 
             temp, text_height = draw.multiline_textsize(
-                    wrapped_text, font=fnt_obj)
+                wrapped_text, font=fnt_obj)
 
             if text_height <= reg_height:
                 return wrapped_text, fnt_obj
 
 
-    def create_meme(self, *args):
+    def create_meme(self, captions=()):
         """
         Create a meme inserting the specified text, or image onto the meme
         template image
         """
         img_obj = Image.open(self.img_path)
         draw    = ImageDraw.Draw(img_obj) 
+        i = 0
 
         for region in self.text_regions:
             # get formated text, and its size
-            text, fnt_obj = self.format_text(img_obj, draw, "sample text", i)
+            text, fnt_obj = self.format_text(img_obj, draw, captions[i], region)
+            i += 1
 
             #draw.rectangle(list(self.text_regions[i]), outline="red")
             draw.multiline_text(
-                (regions[0], regions[1]),
+                (region[0], region[1]),
                 text, font=fnt_obj, align="center", fill="black")
 
         images =\
@@ -142,14 +145,14 @@ class meme_templates():
 
 
 
-joker = meme_templates(
+joker = MemeTemplates(
     "joker", "joker-trailer.jpg", text_regions=[(0,0,100,40)])
 
-two_buttons = meme_templates(
+two_buttons = MemeTemplates(
     "two-buttons", "two-buttons.jpg", 
     text_regions=[(62,84,230,170), (260,50,448,126)])
 
-drake = meme_templates(
+drake = MemeTemplates(
     "drake", "drake.jpg", 
     image_regions=[(601,0,1197,591), (601,592,1197,1197)])
 
