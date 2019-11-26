@@ -1,14 +1,25 @@
 #!./bin/python3
-
-import discord
-import history
+import discord, os
 from discord.ext import commands
+from dotenv import load_dotenv
+import history
 
+# Local Files
+from cogs.Memes import Memes
+from cogs.FunAndGames import FunAndGames
+
+# load environment variables (relavent ones are stored in .env)
+load_dotenv()
+token = os.getenv('DISCORD_TOKEN')
+
+# create bot object (subclass of client object)
 bot = commands.Bot(command_prefix='!')
+bot.add_cog(Memes(bot))
+bot.add_cog(FunAndGames(bot))
 
 @bot.event
 async def on_ready():
-	print('We have logged in as {0.user}'.format(bot))
+    print(f'{bot.user.name} has connected to Discord!')
 
 @bot.command(name='echo')
 async def echo(ctx, *args):
@@ -36,7 +47,6 @@ async def history_error(ctx, error):
 	if isinstance(error, commands.ArgumentParsingError):
 		await ctx.send("You didn't give me valid arguments ಥ_ಥ")
 		
-
 '''
 async def spongeBobText(message):
 	if(message.content == '!spongebob'):
@@ -56,6 +66,5 @@ async def spongeBobText(message):
 				returnChar = returnChar+character
 		return returnChar
 '''
-print('Please enter the Authentication Token')
-token = input()
 bot.run(token)
+
