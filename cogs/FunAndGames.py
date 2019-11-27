@@ -11,6 +11,15 @@ class FunAndGames(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
+    @commands.command(name='reload', hidden=True)
+    async def _reload(self, ctx, *, arg):
+        try:
+            self.bot.reload_extension(arg)
+        except commands.ExtensionError as e:
+            await ctx.send(f'{e.__class__.__name__}: {e}')
+        else:
+            await ctx.send('Reloaded {}'.format(arg))
+
     @commands.command(name="woaj")
     async def woaj(self, ctx):
         await ctx.channel.send(file=discord.File(f'{image_dir}/woaj.jpg'))
@@ -29,15 +38,13 @@ class FunAndGames(commands.Cog):
     
     @commands.command(name='history')
     async def getHistory(self, ctx, arg: int):
-        history = await ctx.history(limit=arg).flatten()
-        print(type(history.content))
+        history = await ctx.history(limit=150).flatten()
         returnHistory = []
-        for chatMsg in history:
-            if('!history' in chatMsg.content or chatMsg.content == ''):
-                num = num+1
+        for chatMsg in range(0, arg):
+            if('!history' in history[chatMsg].content or history[chatMsg].content == ''):
                 continue
             else:
-                returnHistory.append(chatMsg.content)
+                returnHistory.append(history[chatMsg].content)
         await ctx.send(returnHistory)
 
     @getHistory.error
@@ -47,23 +54,22 @@ class FunAndGames(commands.Cog):
         else:
             await ctx.send("An error has occured oof")
     
-    '''
     @commands.command(name='spongebob')
-    async def spongeBobText(self, ctx, arg):
-        if(message.content == '!spongebob'):
-            history = await message.channel.history(limit=100).flatten()
-            for word in history:
-                if(word.content.startswith('!spongebob')):
-                    continue
-                else:
-                    tempText = word.content
-                    break
-            returnChar = ''
-            for character in tempText:
-                randValue = random.randint(0,1)
-                if(randValue == 0):
-                    returnChar = returnChar + character.upper()
-                else:
-                    returnChar = returnChar+character
-            return returnChar
-    '''
+    async def spongeBobText(self, ctx, arg=None):
+        if(arg == None):
+            history = await ctx.history(limit=2).flatten()
+            lastMsg = history[1].content
+            if(lastMsg == '!spongebob'):
+                await ctx.send("Can't find text")
+        else:
+            lastMsg = arg
+        returnChar = ''
+        for character in lastMsg:
+            randValue = random.randint(0,1)
+            if(randValue == 0):
+                returnChar = returnChar + character.upper()
+            else:
+                returnChar = returnChar + character.lower()
+        await ctx.send(returnChar)
+
+    
