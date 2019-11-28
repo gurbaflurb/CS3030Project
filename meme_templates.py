@@ -23,31 +23,18 @@ class MemeTemplates():
     temp_image_name = os.getenv('TEMP_IMAGE')
 
     def __init__(
-            self, name, img_name, fnt_path=default_font, 
-            text_regions=[], image_regions=[]):
+            self, name: str, img_name: str, fnt_path: str = default_font, 
+            text_regions: list = [], image_regions: list = []):
 
-        try:
-            # Make sure files exist, and types are correct
-            assert isinstance(name, str)
-            assert isinstance(img_name, str)
-            assert isinstance(fnt_path, str) or fnt_path == None
-            assert os.path.exists(f'./{self.template_dir}/{img_name}'),\
-                        "File does not exist"
+        assert os.path.exists(f'./{self.template_dir}/{img_name}'),\
+                    "File does not exist"
 
-            if isinstance(text_regions, list):
-                for i in text_regions:
-                    assert isinstance(i,  tuple)
-
-            if isinstance(image_regions, list):
-                for i in image_regions:
-                    assert isinstance(i, tuple)
-
-            # assign instance variables
-            self.name          = name
-            self.img_path      = './' + self.template_dir + '/' +  img_name
-            self.fnt_path      = fnt_path
-            self.text_regions  = text_regions
-            self.image_regions = image_regions
+        # assign instance variables
+        self.name          = name
+        self.img_path      = './' + self.template_dir + '/' +  img_name
+        self.fnt_path      = fnt_path
+        self.text_regions  = text_regions
+        self.image_regions = image_regions
 
         except AssertionError:
             print("File does not exist")
