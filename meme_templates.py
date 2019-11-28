@@ -36,9 +36,6 @@ class MemeTemplates():
         self.text_regions  = text_regions
         self.image_regions = image_regions
 
-        except AssertionError:
-            print("File does not exist")
-        
 
     def format_text(self, img_obj, draw, text, region):
         """ 
