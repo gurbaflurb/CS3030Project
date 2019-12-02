@@ -20,13 +20,5 @@ bot.add_cog(FunAndGames(bot))
 async def on_ready():
     print(f'{bot.user.name} has connected to Discord!')
 
-@bot.command(name='echo')
-async def echo(ctx, *args):
-	await ctx.send(' '.join(args))
-
-@echo.error
-async def echo_error(ctx, error):
-	await ctx.send("You didn't give me anything to echo ಥ_ಥ")
-
 bot.run(token)
 

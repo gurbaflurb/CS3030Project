@@ -20,10 +20,17 @@ class FunAndGames(commands.Cog):
         else:
             await ctx.send('Reloaded {}'.format(arg))
 
+    @commands.command(name='echo')
+    async def echo(self, ctx, *args):
+	    await ctx.send(' '.join(args))
+
+    @echo.error
+    async def echo_error(self, ctx, error):
+	    await ctx.send("You didn't give me anything to echo ಥ_ಥ")
+
     @commands.command(name="woaj")
     async def woaj(self, ctx):
         await ctx.channel.send(file=discord.File(f'{image_dir}/woaj.jpg'))
-
 
     @commands.command(name="rr")
     async def russian_roulete(self, ctx, *args):
