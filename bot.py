@@ -1,22 +1,24 @@
 #!/usr/bin/python3
+import discord, os
+from discord.ext import commands
+from dotenv import load_dotenv
 
-import discord
+# Local Files
+from cogs.Memes import Memes
+from cogs.FunAndGames import FunAndGames
 
-client = discord.Client()
+# load environment variables (relavent ones are stored in .env)
+load_dotenv()
+token = os.getenv('DISCORD_TOKEN')
 
-@client.event
+# create bot object (subclass of client object)
+bot = commands.Bot(command_prefix='!')
+bot.add_cog(Memes(bot))
+bot.add_cog(FunAndGames(bot))
+
+@bot.event
 async def on_ready():
-	print('We have logged in as {0.user}'.format(client))
+    print(f'{bot.user.name} has connected to Discord!')
 
-@client.event
-async def on_message(message):
-	if(message.author == client.user):
-		return
+bot.run(token)
 
-	if message.content.startswith('$hello'):
-		await message.channel.send('Hello!')
-
-print('Please enter the Authentication Token')
-token = input()
-
-client.run(token)
