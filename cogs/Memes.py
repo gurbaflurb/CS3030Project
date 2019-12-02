@@ -4,6 +4,7 @@ import uuid
 import imghdr
 import shelve
 import os
+import random
 import urllib.request
 from meme_templates import MemeTemplates
 from dotenv import load_dotenv
@@ -20,15 +21,29 @@ class Memes(commands.Cog):
 
     @commands.command(name="meme")
     async def meme(self, ctx, meme_name="drake", *args):
+        meme_obj = self.memedb[str(meme_name)]
+        num_regs = meme_obj.num_text_regs
 
-        try:
-            meme_obj = self.memedb[meme_name]
+        assert len(args) == 0 or len(args) == num_regs,\
+                "incorrect number of arguments"
+        if len(args) == 0:
+            db = shelve.open('history.db')
+            rand_args = []
+            for i in range(num_regs):
+                rand_args.append(random.choice(db['history']))
+            meme_obj.create_meme(tuple(rand_args))
+            db.close()
+        else:
             meme_obj.create_meme(args)
-            print(f'sending meme: {meme_name}...')
-            await ctx.channel.send(file=discord.File(temp_image_name))
-        except KeyError:
-            await ctx.channel.send(f"meme \"{meme_name}\" does not exist")
+        print(f'sending meme: {meme_name}...')
+        await ctx.channel.send(file=discord.File(temp_image_name))
 
+    @meme.error
+    async def meme_error(self, ctx, error):
+        if isinstance(error, KeyError):
+            await ctx.channel.send(f"meme \"{meme_name}\" does not exist")
+        else:
+            await ctx.send(f"An  error has occured oof:\n !f{error}")
 
 
     @commands.command(name="addimg")
