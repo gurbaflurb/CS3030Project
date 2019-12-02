@@ -36,6 +36,9 @@ class MemeTemplates():
         self.text_regions  = text_regions
         self.image_regions = image_regions
 
+        self.num_text_regs  = len(text_regions)
+        self.num_image_regs = len(image_regions)
+
 
     def format_text(self, img_obj, draw, text, region):
         """ 
@@ -140,7 +143,7 @@ drake = MemeTemplates(
     "drake", "drake.jpg", 
     image_regions=[(601,0,1197,591), (601,592,1197,1197)])
 
-#database = shelve.open('memes.db')
-#database[two_buttons.name] = two_buttons
-#database[drake.name] = drake
-
+database = shelve.open('memes.db')
+database[two_buttons.name] = two_buttons
+database[drake.name] = drake
+database.close()
