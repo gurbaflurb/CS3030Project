@@ -79,4 +79,31 @@ class FunAndGames(commands.Cog):
                 returnChar = returnChar + character.lower()
         await ctx.send(returnChar)
 
-    
+    @commands.command(name='uwu')
+    async def uwu(self, ctx, arg=None):
+        if(arg == None):
+            history = await ctx.history(limit=2).flatten()
+            lastMsg = history[1].content
+            uwuMsg = ''
+            for letter in lastMsg:
+                num = random.randint(0,11)
+                if(letter is 'r' or letter is 'R'):
+                    uwuMsg = uwuMsg+'w'
+                elif(letter is 'l' or letter is 'L'):
+                    uwuMsg = uwuMsg+'w'
+                elif(letter is 'm' or letter is 'M'):
+                    uwuMsg = uwuMsg+letter+'w'
+                elif(letter is ' '):
+                    if(num is 0):
+                        uwuMsg = uwuMsg + " X3 "
+                    elif(num is 1):
+                        uwuMsg = uwuMsg + " *nuzzles* "
+                    elif(num is 2):
+                        uwuMsg = uwuMsg + " "
+                    elif(num is 3):
+                        uwuMsg = uwuMsg + " UwU "
+                    elif(num in [4,5,6,7,8,9,10]):
+                        uwuMsg = uwuMsg + " "
+                else:
+                    uwuMsg = uwuMsg+letter
+            await ctx.send(uwuMsg)
