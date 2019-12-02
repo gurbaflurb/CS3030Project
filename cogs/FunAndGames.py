@@ -46,9 +46,13 @@ class FunAndGames(commands.Cog):
     @commands.command(name='history')
     async def getHistory(self, ctx, arg: int):
         history = await ctx.history(limit=150).flatten()
+        del history[0] # ignore message that called this command
         returnHistory = []
-        for chatMsg in range(0, arg):
-            if('!history' in history[chatMsg].content or history[chatMsg].content == ''):
+
+        for chatMsg in range(0, arg+1):
+            if (history[chatMsg].content[0] == '!'
+                    or history[chatMsg].content == ''
+                    or history[chatMsg].author.bot):
                 continue
             else:
                 returnHistory.append(history[chatMsg].content)
@@ -59,7 +63,7 @@ class FunAndGames(commands.Cog):
         if isinstance(error, commands.ArgumentParsingError):
             await ctx.send("You didn't give me valid arguments ಥ_ಥ")
         else:
-            await ctx.send("An error has occured oof")
+            await ctx.send(f"An f{error} error has occured oof")
     
     @commands.command(name='spongebob')
     async def spongeBobText(self, ctx, arg=None):

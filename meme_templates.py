@@ -144,4 +144,3 @@ drake = MemeTemplates(
 #database[two_buttons.name] = two_buttons
 #database[drake.name] = drake
 
-drake.create_meme()
