@@ -6,6 +6,7 @@ from dotenv import load_dotenv
 # Local Files
 from cogs.Memes import Memes
 from cogs.FunAndGames import FunAndGames
+from cogs.History import History
 
 # load environment variables (relavent ones are stored in .env)
 load_dotenv()
@@ -15,6 +16,7 @@ token = os.getenv('DISCORD_TOKEN')
 bot = commands.Bot(command_prefix='!')
 bot.add_cog(Memes(bot))
 bot.add_cog(FunAndGames(bot))
+bot.add_cog(History(bot))
 
 @bot.event
 async def on_ready():

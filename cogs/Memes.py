@@ -26,13 +26,11 @@ class Memes(commands.Cog):
 
         assert len(args) == 0 or len(args) == num_regs,\
                 "incorrect number of arguments"
+
         if len(args) == 0:
-            db = shelve.open('history.db')
-            rand_args = []
-            for i in range(num_regs):
-                rand_args.append(random.choice(db['history']))
-            meme_obj.create_meme(tuple(rand_args))
-            db.close()
+            hist_cog = self.bot.get_cog('History')
+            rand = await hist_cog.get_random_messages(num_regs)
+            meme_obj.create_meme(rand)
         else:
             meme_obj.create_meme(args)
         print(f'sending meme: {meme_name}...')
