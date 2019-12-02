@@ -2,14 +2,17 @@ from discord.ext import commands
 import discord
 import os
 import random
+import shelve
 from dotenv import load_dotenv
 
 load_dotenv()
 image_dir = os.getenv('IMAGE_DIR')
 
 class FunAndGames(commands.Cog):
+
     def __init__(self, bot):
         self.bot = bot
+
 
     @commands.command(name='reload', hidden=True)
     async def _reload(self, ctx, *, arg):
@@ -20,17 +23,21 @@ class FunAndGames(commands.Cog):
         else:
             await ctx.send('Reloaded {}'.format(arg))
 
+
     @commands.command(name='echo')
     async def echo(self, ctx, *args):
 	    await ctx.send(' '.join(args))
+
 
     @echo.error
     async def echo_error(self, ctx, error):
 	    await ctx.send("You didn't give me anything to echo ಥ_ಥ")
 
+
     @commands.command(name="woaj")
     async def woaj(self, ctx):
         await ctx.channel.send(file=discord.File(f'{image_dir}/woaj.jpg'))
+
 
     @commands.command(name="rr")
     async def russian_roulete(self, ctx, *args):
@@ -43,12 +50,14 @@ class FunAndGames(commands.Cog):
         else:
             await ctx.channel.send("*click*")
     
+
     @commands.command(name='history')
     async def getHistory(self, ctx, arg: int):
         history = await ctx.history(limit=150).flatten()
         del history[0] # ignore message that called this command
         returnHistory = []
 
+        db = shelve.open('history.db')
         for chatMsg in range(0, arg+1):
             if (history[chatMsg].content == '' 
                     or history[chatMsg].content[0] == '!'
@@ -56,9 +65,10 @@ class FunAndGames(commands.Cog):
                 continue
             else:
                 returnHistory.append(history[chatMsg].content)
-        #await ctx.send(returnHistory)
-        print(ctx.send(returnHistory))
-        return returnHistory
+        await ctx.send(returnHistory)
+        db['history'] = returnHistory
+        db.close()
+
 
     @getHistory.error
     async def history_error(self, ctx, error):
@@ -67,6 +77,7 @@ class FunAndGames(commands.Cog):
         else:
             await ctx.send(f"An  error has occured oof:\n !f{error}")
     
+
     @commands.command(name='spongebob')
     async def spongeBobText(self, ctx, arg=None):
         if(arg == None):
