@@ -50,20 +50,22 @@ class FunAndGames(commands.Cog):
         returnHistory = []
 
         for chatMsg in range(0, arg+1):
-            if (history[chatMsg].content[0] == '!'
-                    or history[chatMsg].content == ''
+            if (history[chatMsg].content == '' 
+                    or history[chatMsg].content[0] == '!'
                     or history[chatMsg].author.bot):
                 continue
             else:
                 returnHistory.append(history[chatMsg].content)
-        await ctx.send(returnHistory)
+        #await ctx.send(returnHistory)
+        print(ctx.send(returnHistory))
+        return returnHistory
 
     @getHistory.error
     async def history_error(self, ctx, error):
         if isinstance(error, commands.ArgumentParsingError):
             await ctx.send("You didn't give me valid arguments ಥ_ಥ")
         else:
-            await ctx.send(f"An f{error} error has occured oof")
+            await ctx.send(f"An  error has occured oof:\n !f{error}")
     
     @commands.command(name='spongebob')
     async def spongeBobText(self, ctx, arg=None):
