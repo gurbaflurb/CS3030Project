@@ -37,7 +37,7 @@ class Memes(commands.Cog):
         try:
             urllib.request.urlretrieve(url, temp_image_name)
             file_type = imghdr.what(temp_image_name)
-            assert file_type != "None", "file is Not image type"
+            assert file_type != None, "file is Not image type"
 
             name = uuid.uuid1()
             name = f"{image_dir}/{str(name)}.{file_type}"
