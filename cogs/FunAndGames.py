@@ -84,26 +84,34 @@ class FunAndGames(commands.Cog):
         if(arg == None):
             history = await ctx.history(limit=2).flatten()
             lastMsg = history[1].content
-            uwuMsg = ''
-            for letter in lastMsg:
-                num = random.randint(0,11)
-                if(letter is 'r' or letter is 'R'):
-                    uwuMsg = uwuMsg+'w'
-                elif(letter is 'l' or letter is 'L'):
-                    uwuMsg = uwuMsg+'w'
-                elif(letter is 'm' or letter is 'M'):
-                    uwuMsg = uwuMsg+letter+'w'
-                elif(letter is ' '):
-                    if(num is 0):
-                        uwuMsg = uwuMsg + " X3 "
-                    elif(num is 1):
-                        uwuMsg = uwuMsg + " *nuzzles* "
-                    elif(num is 2):
-                        uwuMsg = uwuMsg + " "
-                    elif(num is 3):
-                        uwuMsg = uwuMsg + " UwU "
-                    elif(num in [4,5,6,7,8,9,10]):
-                        uwuMsg = uwuMsg + " "
-                else:
-                    uwuMsg = uwuMsg+letter
-            await ctx.send(uwuMsg)
+            uwuMsg = makeUwUText(self, lastMsg)
+        else:
+            uwuMsg = makeUwUText(self, arg)
+        await ctx.send(uwuMsg)
+            
+    @uwu.error
+    async def uwu_error(self, ctx, error):
+        await ctx.send(f"OwO Oh Noes, Wooks wike an ewwow occuwed. Pwease dwon't hwate mwe .·´¯`(>▂<)´¯`·.\n f{error}")
+
+def makeUwUText(self, lastMsg):
+    uwuMsg = ''
+    for letter in lastMsg:
+        num = random.randint(0,11)
+        if(letter.lower() == 'r' or letter.lower() == 'l'):
+            uwuMsg = uwuMsg+'w'
+        elif(letter is 'm' or letter is 'M'):
+            uwuMsg = uwuMsg+letter+'w'
+        elif(letter is ' '):
+            if(num is 0):
+                uwuMsg = uwuMsg + " X3 "
+            elif(num is 1):
+                uwuMsg = uwuMsg + " \*nuzzles\* "
+            elif(num is 2):
+                uwuMsg = uwuMsg + " "
+            elif(num is 3):
+                uwuMsg = uwuMsg + " UwU "
+            elif(num in [i for i in range(4,12)]):
+                uwuMsg = uwuMsg + " "
+        else:
+            uwuMsg = uwuMsg+letter
+    return uwuMsg
