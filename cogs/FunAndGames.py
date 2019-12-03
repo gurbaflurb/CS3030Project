@@ -67,5 +67,39 @@ class FunAndGames(commands.Cog):
             else:
                 returnChar = returnChar + character.lower()
         await ctx.send(returnChar)
-
+        
     
+    @commands.command(name='uwu')
+    async def uwu(self, ctx, arg=None):
+        if(arg == None):
+            history = await ctx.history(limit=2).flatten()
+            lastMsg = history[1].content
+            uwuMsg = await self.makeUwUText(lastMsg)
+        else:
+            uwuMsg = await self.makeUwUText(arg)
+        await ctx.send(uwuMsg)
+            
+    @uwu.error
+    async def uwu_error(self, ctx, error):
+        await ctx.send(f"OwO Oh Noes, Wooks wike an ewwow occuwed. Pwease dwon't hwate mwe .·´¯`(>▂<)´¯`·.\n f{error}")
+
+    async def makeUwUText(self, lastMsg):
+        uwuMsg = ''
+        for letter in lastMsg:
+            num = random.randint(0,11)
+            if(letter.lower() == 'r' or letter.lower() == 'l'):
+                uwuMsg = uwuMsg+'w'
+            elif(letter is 'm' or letter is 'M'):
+                uwuMsg = uwuMsg+letter+'w'
+            elif(letter is ' '):
+                if(num is 0):
+                    uwuMsg = uwuMsg + " X3 "
+                elif(num is 1):
+                    uwuMsg = uwuMsg + " \*nuzzles\* "
+                elif(num is 2):
+                    uwuMsg = uwuMsg + " UwU "
+                elif(num > 2):
+                    uwuMsg = uwuMsg + " "
+            else:
+                uwuMsg = uwuMsg+letter
+        return uwuMsg
