@@ -15,21 +15,17 @@ class History(commands.Cog):
 
     @commands.command(name='history')
     async def getHistory(self, ctx, arg: int):
-        history = await ctx.history(limit=150).flatten()
+        history = await ctx.history(limit=None, oldest_first=True).flatten()
         del history[0] # ignore message that called this command
-        returnHistory = []
 
-        for chatMsg in range(0, arg+1):
-            if (history[chatMsg].content == '' 
-                    or history[chatMsg].content[0] == '!'
-                    or history[chatMsg].author.bot):
-                continue
-            else:
-                returnHistory.append(history[chatMsg].content)
-        #await ctx.send(returnHistory)
-        print(returnHistory)
-        await ctx.send("I got dat history, there's no hiding now W0mp")
-        self.db['history'] = returnHistory
+        server  = str(ctx.guild.id)
+        channel = str(ctx.channel.id)
+
+        filtered = filter_messages(history)
+
+        self.db[server] = {}
+        self.db[server][channel] = filtered
+        await ctx.send("I got dat history!")
 
     @getHistory.error
     async def history_error(self, ctx, error):
@@ -37,6 +33,19 @@ class History(commands.Cog):
             await ctx.send("You didn't give me valid arguments ಥ_ಥ")
         else:
             await ctx.send(f"An  error has occured oof:\n !f{error}")
+
+
+    async def filter_messages(self, messages: list):
+        filtered = []
+
+        for chat_msg in messages:
+            if (chat_msg.content == '' 
+                    or chat_msg.content[0] == '!'
+                    or chat_msg.author.bot):
+                continue
+            else:
+                filtered.append(history[chatMsg].content)
+        return filtered
 
 
     async def get_random_messages(self, num: int):
