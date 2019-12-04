@@ -14,7 +14,7 @@ class History(commands.Cog):
         self.db = shelve.open('history.db')
 
     @commands.command(name='list-hist')
-    @commands.has_any_role('mod', 'admin', '@mod')
+    @commands.has_any_role('mod', '@mod')
     async def listHistory(self, ctx):
         for key in self.db.keys():
             server_name = self.bot.get_guild(id=int(key)).name
@@ -25,14 +25,14 @@ class History(commands.Cog):
 
 
     @commands.command(name='del-hist')
-    @commands.has_any_role('mod', 'admin', '@mod')
+    @commands.has_any_role('mod', '@mod')
     async def delHistory(self, ctx):
         for key in self.db.keys():
             del self.db[key]
 
 
     @commands.command(name='add-hist')
-    @commands.has_any_role('mod', 'admin', '@mod')
+    @commands.has_any_role('mod', '@mod')
     async def getHistory(self, ctx):
         print(f"Grabbing messages from {ctx.channel.name} this could take a while...")
         await ctx.send(f"Grabbing messages from {ctx.channel.name} this could take a while...")
