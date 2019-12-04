@@ -64,8 +64,9 @@ class History(commands.Cog):
         if srv_id not in self.db: 
             self.db[srv_id] = {}
 
+        # TODO fix this
         for arg in args:
-            if arg not in [i.name() for i in channels]:
+            if arg not in [i for i in channels]:
                 print(f"no channel named {arg}")
                 await ctx.send(f"no channel named {arg}")
 
@@ -84,26 +85,20 @@ class History(commands.Cog):
             print(f"Grabbed {len(filtered)} messages from {channel}")
             await ctx.send(f"Grabbed {len(filtered)} messages from {channel}")
 
-    @getHistory.error
-    async def history_error(self, ctx, error):
-        if isinstance(error, commands.ArgumentParsingError):
-            await ctx.send("You didn't give me valid arguments ಥ_ಥ")
-        else:
-            await ctx.send(f"An  error has occured oof:\n !f{error}")
 
 
-    async def filter_channels(self, ctx, *args):
+    async def filter_channels(self, ctx, requested_channels):
         """ 
         Given a list of channels, returns the ones that actually exist
         If no arguments are given, return all channels
         """
         channels = ctx.guild.text_channels
         new_channels = []
-        if len(args) == 1: # if no channels specified grab them all
+        if len(requested_channels) == 0: # if no channels specified grab them all
             return channels
 
         for channel in channels:
-            if channel.name in args:
+            if channel.name in requested_channels:
                 new_channels.append(channel)
         return new_channels
         
