@@ -29,7 +29,7 @@ class Memes(commands.Cog):
 
         if len(args) == 0:
             hist_cog = self.bot.get_cog('History')
-            rand = await hist_cog.get_random_messages(num_regs)
+            rand = await hist_cog.get_random_messages(ctx, num_regs)
             meme_obj.create_meme(rand)
         else:
             meme_obj.create_meme(args)
