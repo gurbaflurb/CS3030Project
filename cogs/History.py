@@ -8,6 +8,11 @@ from dotenv import load_dotenv
 load_dotenv()
 
 class History(commands.Cog):
+    """
+    if a variable is named channel or channels they should be a channel object.
+    If a variable is a channel name or id the variable should have the word id
+    or name in it
+    """
 
     def __init__(self, bot):
         self.bot = bot
@@ -28,8 +33,8 @@ class History(commands.Cog):
     @commands.command(name='list-channels')
     @commands.has_any_role('mod', '@mod')
     async def listChannels(self, ctx):
-        for channel in self.db[str(ctx.guild.id)]:
-            channel_name = self.bot.get_channel(id=int(channel))
+        for channel_id in self.db[str(ctx.guild.id)]:
+            channel_name = self.bot.get_channel(id=int(channel_id))
             print(f"{channel_name}")
             await ctx.send(f"{channel_name}")
 
@@ -76,13 +81,13 @@ class History(commands.Cog):
         db_channels = self.db[str(srv_id)]
 
         server_channel_ids = [i.id for i in ctx.guild.text_channels]
-        channel_ids = []
+        removed_channel_ids = []
 
         for channel_id in db_channels.keys():
             if channel_id not in server_channel_ids:
-                channel_ids.append(channel_id) 
+                removed_channel_ids.append(channel_id) 
 
-        await self.delete_history(ctx, channel_ids)
+        await self.delete_history(ctx, removed_channel_ids)
 
 
     async def save_history(self, ctx, channel_ids: list):
@@ -137,18 +142,18 @@ class History(commands.Cog):
         exist
         """
         channels = ctx.guild.text_channels
-        channel_names    = [x.name for x in channels]
-        invalid_channels = [x for x in requested_channels if x not in channel_names]
-        channel_ids      = []
+        channel_names     = [x.name for x in channels]
+        invalid_channels  = [x for x in requested_channels if x not in channel_names]
+        valid_channel_ids = []
 
         for channel in channels:
             if channel.name in requested_channels:
-                channel_ids.append(channel.id)
+                valid_channel_ids.append(channel.id)
 
         for channel_name in invalid_channels:
                 print(f"channel {channel_name} does not exist")
                 await ctx.send(f"channel {channel_name} does not exist")
-        return new_channel_ids
+        return valid_channel_ids
         
 
     async def filter_messages(self, messages: list):
