@@ -41,7 +41,7 @@ class History(commands.Cog):
             print("no channels specified")
             await ctx.send("no channels specified")
 
-        channel_ids = await self.get_channels(ctx, args)
+        channel_ids = await self.get_channel_ids(ctx, args)
         await self.save_history(ctx, channel_ids)
 
 
@@ -59,7 +59,7 @@ class History(commands.Cog):
             print("no channels specified")
             await ctx.send("no channels specified")
 
-        channel_ids = await self.get_channels(ctx, args)
+        channel_ids = await self.get_channel_ids(ctx, args)
         await self.delete_history(ctx, channel_ids)
 
 
@@ -97,7 +97,6 @@ class History(commands.Cog):
             await ctx.send(f"Grabbing messages from {channel} this could take a while...")
 
             history  = await channel.history(limit=None, oldest_first=True).flatten()
-            print(history[1])
             filtered = await self.filter_messages(history)
 
             # store channel history in server entry
@@ -132,17 +131,23 @@ class History(commands.Cog):
         self.db[srv_id] = server
 
 
-    async def get_channels(self, ctx, requested_channels):
+    async def get_channel_ids(self, ctx, requested_channels):
         """ 
         Given a list of channels names, return the channel ids that actually 
         exist
         """
         channels = ctx.guild.text_channels
-        new_channel_ids = []
+        channel_names    = [x.name for x in channels]
+        invalid_channels = [x for x in requested_channels if x not in channel_names]
+        channel_ids      = []
 
         for channel in channels:
             if channel.name in requested_channels:
-                new_channel_ids.append(channel.id)
+                channel_ids.append(channel.id)
+
+        for channel_name in invalid_channels:
+                print(f"channel {channel_name} does not exist")
+                await ctx.send(f"channel {channel_name} does not exist")
         return new_channel_ids
         
 
