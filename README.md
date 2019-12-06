@@ -11,5 +11,5 @@ Our project for this semester was to build a Discord bot using python. Our bot w
 
 
 ## Todo
-* better error handling need error classes
-* format long strings in text regions better
+* handle permissions errors when grabbing from channels 
+* fix channel not deleting
