@@ -15,3 +15,7 @@ class admin(commands.Cog):
             await ctx.send(f'{e.__class__.__name__}: {e}')
         else:
             await ctx.send('Reloaded {}'.format(arg))
+
+    @commands.command(name='ban', hidden=True)
+    async def _ban(self, ctx, *, arg):
+        pass
