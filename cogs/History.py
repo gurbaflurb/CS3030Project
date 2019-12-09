@@ -169,8 +169,8 @@ class History(commands.Cog):
         return filtered
 
 
-    async def get_history(self, ctx, as_text=False):
-        server = self.db[str(ctx.guild.id)]
+    async def get_history(self, srv_id: str, as_text=False):
+        server = self.db[srv_id]
         history = []
         for channel_history in server.values():
             history += channel_history
@@ -185,9 +185,11 @@ class History(commands.Cog):
     @commands.command(name='hist-text')
     @commands.has_any_role('mod', '@mod')
     async def text_hist(self, ctx):
-        await self.get_history(ctx, as_text=True)
+        srv_id = str(ctx.guild.id)
+        await self.get_history(srv_id, as_text=True)
 
     async def get_random_messages(self, ctx, num: int):
-        messages  = await self.get_history(ctx)
+        srv_id = str(ctx.guild.id)
+        messages  = await self.get_history(srv_id)
         rand_msgs = [random.choice(messages) for i in range(num)]
         return tuple(rand_msgs)

@@ -12,26 +12,35 @@ class Markov(commands.Cog):
         self.bot = bot
         self.db = shelve.open('markov.db')
 
+
+    @commands.command(name='list-markov')
+    @commands.has_any_role('mod', '@mod')
+    async def list_markov(self, ctx):
+        for key in self.db.keys():
+            server_name = self.bot.get_guild(id=int(key)).name
+            print(f"{server_name}: {key}")
+
+
     @commands.command(name='gen-markov')
     @commands.has_any_role('mod', '@mod')
-    async def call_generate_markov(self, ctx, *args):
-        await self.generate_markov(ctx)
+    async def call_generate_markov(self, ctx):
+        srv_id = str(ctx.guild.id)
+        await self.generate_markov(srv_id)
         await ctx.send("Generated markov chain object for this server")
 
-    async def generate_markov(self, ctx, *args):
+
+    async def generate_markov(self, *args):
         hist_cog = self.bot.get_cog('History')
-        await hist_cog.get_history(ctx, as_text=True)
+        for srv_id in args:
+            await hist_cog.get_history(srv_id, as_text=True)
 
-        with open("history_temp.txt", "r") as f:
-            text = f.read()
-
-        srv_id = str(ctx.guild.id)
-        self.db[srv_id] = markovify.Text(text)
+            with open("history_temp.txt", "r") as f:
+                text = f.read()
+            self.db[srv_id] = markovify.Text(text)
 
 
-    async def get_chain(self, ctx, num: int):
+    async def get_chain(self, srv_id, num: int):
         rand_msgs = []
-        srv_id = str(ctx.guild.id)
         server = self.db[srv_id]
         for i in range(num):
             rand_msgs += [server.make_short_sentence(100)]

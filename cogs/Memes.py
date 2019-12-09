@@ -40,13 +40,14 @@ class Memes(commands.Cog):
     async def meme(self, ctx, meme_name="drake", *args):
         meme_obj = self.memedb[str(meme_name)]
         num_regs = meme_obj.num_text_regs
+        srv_id   = str(ctx.guild.id)
 
         assert len(args) == 0 or len(args) == num_regs,\
                 "incorrect number of arguments"
 
         if len(args) == 0:
             mark_cog = self.bot.get_cog('Markov')
-            rand = await mark_cog.get_chain(ctx, num_regs)
+            rand = await mark_cog.get_chain(srv_id, num_regs)
             meme_obj.create_meme(rand)
         else:
             meme_obj.create_meme(args)
