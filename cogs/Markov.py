@@ -36,13 +36,13 @@ class Markov(commands.Cog):
 
             with open("history_temp.txt", "r") as f:
                 text = f.read()
-            self.db[srv_id] = markovify.Text(text)
+            self.db[srv_id] = markovify.NewlineText(text)
 
 
     async def get_chain(self, srv_id, num: int):
         rand_msgs = []
         server = self.db[srv_id]
         for i in range(num):
-            rand_msgs += [server.make_short_sentence(100)]
+            rand_msgs += [server.make_short_sentence(100, tries=20)]
 
         return rand_msgs

@@ -179,7 +179,7 @@ class History(commands.Cog):
             return history
         else:
             f = open("history_temp.txt", "w")
-            f.write(' '.join(history))
+            f.write('\n'.join(history))
             f.close()
 
     @commands.command(name='hist-text')
