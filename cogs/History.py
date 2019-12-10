@@ -29,6 +29,10 @@ class History(commands.Cog):
                 channel_name = self.bot.get_channel(id=int(channel)).name
                 print(f"\t{channel_name}: {channel}")
 
+    @listHistory.error
+    async def listHistory_error(self, ctx, error):
+        await ctx.channel.send(f"Something went wrong, here's an error message:\nf{error}")
+    
 
     @commands.command(name='list-channels')
     @commands.has_any_role('mod', '@mod')
@@ -43,8 +47,8 @@ class History(commands.Cog):
     @commands.has_any_role('mod', '@mod')
     async def save_channels(self, ctx, *args):
         if len(args) == 0:
-            print("no channels specified")
-            await ctx.send("no channels specified")
+            print("No channels specified")
+            await ctx.send("No channels specified")
 
         channel_ids = await self.get_channel_ids(ctx, args)
         await self.save_history(ctx, channel_ids)
@@ -61,8 +65,8 @@ class History(commands.Cog):
     @commands.has_any_role('mod', '@mod')
     async def delete_channels(self, ctx, *args):
         if len(args) == 0:
-            print("no channels specified")
-            await ctx.send("no channels specified")
+            print("No channels specified")
+            await ctx.send("No channels specified")
 
         channel_ids = await self.get_channel_ids(ctx, args)
         await self.delete_history(ctx, channel_ids)
