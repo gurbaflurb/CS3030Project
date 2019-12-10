@@ -20,7 +20,11 @@ class Memes(commands.Cog):
         self.memedb = shelve.open('memes.db')
 
     @commands.command(name="meme-quote")
-    async def meme_quote(self, ctx, meme_name="drake", *args):
+    async def meme_quote(self, ctx, meme_name=None, *args):
+        if meme_name == None:
+            names = [key for key in self.memedb.keys()]
+            meme_name = random.choice(names)
+
         meme_obj = self.memedb[str(meme_name)]
         num_regs = meme_obj.num_text_regs
 
@@ -37,7 +41,12 @@ class Memes(commands.Cog):
         await ctx.channel.send(file=discord.File(temp_image_name))
 
     @commands.command(name="meme")
-    async def meme(self, ctx, meme_name="drake", *args):
+    async def meme(self, ctx, meme_name=None, *args):
+
+        if meme_name == None:
+            names = [key for key in self.memedb.keys()]
+            meme_name = random.choice(names)
+
         meme_obj = self.memedb[str(meme_name)]
         num_regs = meme_obj.num_text_regs
         srv_id   = str(ctx.guild.id)
