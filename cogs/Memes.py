@@ -57,7 +57,7 @@ class Memes(commands.Cog):
     @meme_quote.error
     async def meme_error(self, ctx, error):
         if isinstance(error, KeyError):
-            await ctx.channel.send(f"meme \"{meme_name}\" does not exist")
+            await ctx.channel.send(f"meme template specified does not exist or could not be found!")
         else:
             await ctx.send(f"An  error has occured oof:\n !f{error}")
 
@@ -65,7 +65,7 @@ class Memes(commands.Cog):
     @commands.command(name="addimg")
     async def add_img(self, ctx, url):
 
-        try:
+        try: # Change how the file type is detected, since right now it looks like a text file could be uploaded(ie. anything but a None type will work)
             urllib.request.urlretrieve(url, temp_image_name)
             file_type = imghdr.what(temp_image_name)
             assert file_type != None, "file is Not image type"
@@ -78,3 +78,7 @@ class Memes(commands.Cog):
             os.rename("temp.jpg", name)
         except AssertionError:
             await ctx.channel.send("Incorrect file type")
+
+    @add_img.error
+    async def add_img_error(self, ctx, error):
+        await ctx.channel.send(f"Oh noes, and error has occured:\n f{error}")

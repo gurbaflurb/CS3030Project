@@ -12,21 +12,9 @@ class FunAndGames(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-
-    @commands.command(name='reload', hidden=True)
-    async def _reload(self, ctx, *, arg):
-        try:
-            self.bot.reload_extension(arg)
-        except commands.ExtensionError as e:
-            await ctx.send(f'{e.__class__.__name__}: {e}')
-        else:
-            await ctx.send('Reloaded {}'.format(arg))
-
-
     @commands.command(name='echo')
     async def echo(self, ctx, *args):
 	    await ctx.send(' '.join(args))
-
 
     @echo.error
     async def echo_error(self, ctx, error):
@@ -36,6 +24,10 @@ class FunAndGames(commands.Cog):
     @commands.command(name="woaj")
     async def woaj(self, ctx):
         await ctx.channel.send(file=discord.File(f'{image_dir}/woaj.jpg'))
+
+    @woaj.error
+    async def woaj_error(self, ctx, error):
+        await ctx.channel.send(f"Woah, looks like an error occured f{error}")
 
 
     @commands.command(name="rr")
@@ -68,6 +60,10 @@ class FunAndGames(commands.Cog):
                 returnChar = returnChar + character.lower()
         await ctx.send(returnChar)
         
+    @spongeBobText.error
+    async def spongeBobText_error(self, ctx, error):
+        await ctx.channel.send(f"An error has occured in Bikini Bottom!\nf{error}")
+
     
     @commands.command(name='uwu')
     async def uwu(self, ctx, arg=None):
@@ -82,6 +78,7 @@ class FunAndGames(commands.Cog):
     @uwu.error
     async def uwu_error(self, ctx, error):
         await ctx.send(f"OwO Oh Noes, Wooks wike an ewwow occuwed. Pwease dwon't hwate mwe .·´¯`(>▂<)´¯`·.\n f{error}")
+        
 
     async def makeUwUText(self, lastMsg):
         uwuMsg = ''
