@@ -39,7 +39,7 @@ class Markov(commands.Cog):
             self.db[srv_id] = markovify.NewlineText(text)
 
 
-    async def get_chain(self, srv_id, num: int):
+    async def get_chain(self, srv_id: str, num: int):
         rand_msgs = []
         server = self.db[srv_id]
         for i in range(num):
