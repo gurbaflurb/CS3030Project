@@ -2,7 +2,6 @@
 import discord, os
 from discord.ext import commands
 from dotenv import load_dotenv
-import emotion
 
 # Local Files
 from cogs.Memes import Memes
@@ -22,10 +21,6 @@ bot.add_cog(History(bot))
 @bot.event
 async def on_ready():
     print(f'{bot.user.name} has connected to Discord!')
-
-@bot.event
-async def on_message(message):
-    emotion.getEmotion(message.content)
 
 bot.run(token)
 

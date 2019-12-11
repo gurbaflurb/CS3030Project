@@ -17,17 +17,21 @@ def getEmotion(*args):
     polarity = totalPolarity/totalSentences
     print("Subjectiveity: {}".format(subjectivity))
     print("Polarity: {}".format(polarity))
-    
+    emotion = ''
     if polarity > 1.5:
-        print('Happy')
+        emotion = 'Happy'
     elif polarity >= 1 and polarity < 1.5:
-        print("Neutral")
+        emotion = "Neutral"
     elif polarity < 1:
-        print("Sad")
+        emotion = "Sad"
+    
+    subjective = ''
     if subjectivity > .8:
-        print("Thats an opinion")
-    elif subjectivity < .8 or subjectivity > .6:
-        print("Thats neither an opinion or a fact")
+        subjective = "Opinion"
+    elif subjectivity < .8 and subjectivity > .6:
+        subjective = "Neither"
     elif subjectivity < .6:
-        print("Thats a fact")
+        subjective = "Fact"
+
+    return emotion, subjective
     
