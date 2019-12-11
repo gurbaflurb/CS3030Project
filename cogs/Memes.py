@@ -47,6 +47,13 @@ class Memes(commands.Cog):
             meme_obj.create_meme(arg, image_dirs)
         print(f'sending meme: {meme_name}...')
         await ctx.channel.send(file=discord.File(temp_image_name))
+    
+    @meme.error
+    async def meme_error(self, ctx, error):
+        if isinstance(error, KeyError):
+            await ctx.channel.send(f"meme template specified does not exist or could not be found!")
+        else:
+            await ctx.send(f"An  error has occured oof:\n !f{error}")
 
 
     @commands.command(name="meme-rand-text")
@@ -74,7 +81,9 @@ class Memes(commands.Cog):
         print(f'sending meme: {meme_name}...')
         await ctx.channel.send(file=discord.File(temp_image_name))
 
-
+    @meme_rand.error
+    async def meme_rand_error(self, ctx, error):
+        await ctx.send(f"Looks like an error occured:\n f{error}")
 
 
     @commands.command(name="addimg")

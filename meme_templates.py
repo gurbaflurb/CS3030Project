@@ -82,7 +82,7 @@ class MemeTemplates():
                 # Text has to many lines, decrease font size
                 if text_height > reg_height:
                     fnt_size = int(fnt_size * 0.98)
-                    break;
+                    break
                 # Text is to long
                 if (fnt_size <= 4):
                     pass

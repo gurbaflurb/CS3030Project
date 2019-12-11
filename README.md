@@ -4,11 +4,25 @@ Our project for this semester was to build a Discord bot using python. Our bot w
 ## Setup your own Bot
 - Go through the process of adding a bot in the discord developer portal: https://discordapp.com/developers/applications/
 - Then add the bot using the OAuth2 menu to get the bot url
-- Copy the token for the bot to login with under the Bot menu 
-- On the server you need to run the command `pip3 install discord.py` Since there is no requirements.txt file to use yet
-- Then you can run the command `python3 bot.py` on linux, or `py -3 bot.py` on Windows.
-- When prompted input the token you have and the bot will be online and ready to use.
+- Copy the token for the bot to login with under the Bot menu
+- In the directory where all these files are located, make a file called `.env`, and put the following inside of it:
+```
+DISCORD_TOKEN="Put your OAuth2 Code here"
+DISCORD_GUILD="NameOfBot"
+MEME_TEMPLATE_DIR="template_images"
+IMAGE_DIR="images"
+DEFAULT_FONT="fonts/comicsansms3.ttf"
+TEMP_IMAGE="temp.jpg"
+GLOBAL_IMAGE_DIR="images/global"
+```
 
+### Windows Server
+- On the server you need to run the command `py -3 -m pip install -r requirements.txt`. This will install the dependencies and packages you will need to run this bot.
+- Then you can run the command `py -3 bot.py` on the commandline in Windows to run the bot. The bot should begin running and will automatically connect to your server.
+
+### Linux Server
+- On the server you need to run the command `python3 -m pip install -r requirements.txt`. This will install the dependencies and packages you will need to run this bot.
+- Then you can run the command `python3 bot.py` on the Linux terminal to run the bot. The bot should begin running and will automatically connect to your server.
 
 ## Todo
 * handle permissions errors when grabbing from channels 
