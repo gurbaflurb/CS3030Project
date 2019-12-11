@@ -20,6 +20,10 @@ class Markov(commands.Cog):
             server_name = self.bot.get_guild(id=int(key)).name
             print(f"{server_name}: {key}")
 
+    @list_markov.error
+    async def list_markov_error(self, ctx, error):
+        await ctx.send("Looks like an error occured:\n f{error}")
+        
 
     @commands.command(name='gen-markov')
     @commands.has_any_role('mod', '@mod')
@@ -27,6 +31,10 @@ class Markov(commands.Cog):
         srv_id = str(ctx.guild.id)
         await self.generate_markov(srv_id)
         await ctx.send("Generated markov chain object for this server")
+
+    @call_generate_markov.error
+    async def call_generate_markov_error(self, ctx, error):
+        await ctx.send("Looks like an error occured:\n f{error}")
 
 
     async def generate_markov(self, *args):

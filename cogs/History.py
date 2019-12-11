@@ -32,7 +32,7 @@ class History(commands.Cog):
 
     @listHistory.error
     async def listHistory_error(self, ctx, error):
-        await ctx.channel.send(f"Something went wrong, here's an error message:\nf{error}")
+        await ctx.channel.send(f"Something went wrong, here's an error message:\n f{error}")
     
 
     @commands.command(name='list-channels')
@@ -42,6 +42,10 @@ class History(commands.Cog):
             channel_name = self.bot.get_channel(id=int(channel_id))
             print(f"{channel_name}")
             await ctx.send(f"{channel_name}")
+
+    @listChannels.error
+    async def listChannels_error(self, ctx, error):
+        await ctx.send(f"Looks like an error ocured:\n f{error}")
 
 
     @commands.command(name='add-channel')
@@ -54,12 +58,20 @@ class History(commands.Cog):
         channel_ids = await self.get_channel_ids(ctx, args)
         await self.save_history(ctx, channel_ids)
 
+    @save_channels.error
+    async def save_chennels_error(self, ctx, error):
+        await ctx.send(f"Looks like an error occured:\n f{error}")
+
 
     @commands.command(name='add-all')
     @commands.has_any_role('mod', '@mod')
     async def save_all_channels(self, ctx):
         channel_ids = [i.id for i in ctx.guild.text_channels]
         await self.save_history(ctx, channel_ids)
+
+    @save_all_channels.error
+    async def save_all_channels_error(self, ctx, error):
+        await ctx.send(f"Looks like an error occured:\n f{error}")
 
 
     @commands.command(name='del-channel')
@@ -72,11 +84,19 @@ class History(commands.Cog):
         channel_ids = await self.get_channel_ids(ctx, args)
         await self.delete_history(ctx, channel_ids)
 
+    @delete_channels
+    async def delete_channels_error(self, ctx, error):
+        await ctx.send(f"Looks like an error occured:\n f{error}")
+
 
     @commands.command(name='del-all')
     @commands.has_any_role('mod', '@mod')
     async def delete_all_channels(self, ctx):
         await self.delete_history(ctx, [], del_all=True)
+
+    @delete_all_channels.error
+    async def delete_all_channels_error(self, ctx, error):
+        await ctx.send(f"Looks like an error occured:\n f{error}")
 
 
     @commands.command(name='clean-channels')
@@ -93,6 +113,10 @@ class History(commands.Cog):
                 removed_channel_ids.append(channel_id) 
 
         await self.delete_history(ctx, removed_channel_ids)
+
+    @clean_channels.error
+    async def clean_channels_error(self, ctx, error):
+        await ctx.send(f"Looks like an error occured:\n f{error}")
 
 
     async def save_history(self, ctx, channel_ids: list):
@@ -207,6 +231,10 @@ class History(commands.Cog):
     async def text_hist(self, ctx):
         srv_id = str(ctx.guild.id)
         await self.get_history(srv_id, as_text=True)
+
+    @text_hist.error
+    async def text_hist_error(self, ctx, error):
+        await ctx.send(f"Looks like an error occured:\n f{error}")
 
 
     async def get_random_messages(self, ctx, num: int):

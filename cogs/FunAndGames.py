@@ -62,7 +62,7 @@ class FunAndGames(commands.Cog):
         
     @spongeBobText.error
     async def spongeBobText_error(self, ctx, error):
-        await ctx.channel.send(f"An error has occured in Bikini Bottom!\nf{error}")
+        await ctx.channel.send(f"An error has occured in Bikini Bottom!\n f{error}")
 
     
     @commands.command(name='uwu')
