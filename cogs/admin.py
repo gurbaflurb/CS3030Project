@@ -21,7 +21,6 @@ class admin(commands.Cog):
         pass
 
     async def on_message(message):
-        print(message)
         banned_words = ['fuck', 'shit', 'asshole','kys',]# List of banned words
         for word in banned_words:
             if word in message.content:
