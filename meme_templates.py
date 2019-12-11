@@ -139,12 +139,11 @@ class MemeTemplates():
 
 
 
-joker = MemeTemplates(
-    "joker", "joker-trailer.jpg", text_regions=[(0,0,100,40)])
-
 two_buttons = MemeTemplates(
     "two-buttons", "two-buttons.jpg", 
-    text_regions=[(62,84,230,170), (260,50,448,126)])
+    text_regions=[(62,84,230,170), (260,50,448,126)],
+    emotions=["Happy","Sad"],
+    objectiveness=[None, None])
 
 drake = MemeTemplates(
     "drake", "drake.jpg", 
@@ -158,19 +157,27 @@ news = MemeTemplates(
 
 prison = MemeTemplates(
     "prison", "prison.jpg", 
-    text_regions=[(272,258,362,299)])
+    text_regions=[(272,258,362,299)],
+    emotions=["Sad"],
+    objectiveness=[None])
 
 head_out = MemeTemplates(
     "head_out", "head_out.jpg", 
-    text_regions=[(0,0,798,73)])
+    text_regions=[(0,0,798,73)],
+    emotions=[None],
+    objectiveness=["Opinion"])
 
 tension = MemeTemplates(
     "tension", "tension.jpg", 
-    text_regions=[(307,480,600,520)])
+    text_regions=[(307,480,600,520)],
+    emotions=["Sad"], 
+    objectiveness=[None])
 
 first_words = MemeTemplates(
     "first_words", "first_words.jpg", 
-    text_regions=[(32,360,458,500)])
+    text_regions=[(32,360,458,500)],
+    emotions=[None], 
+    objectiveness=[None])
 
 database = shelve.open('memes.db')
 database[two_buttons.name] = two_buttons

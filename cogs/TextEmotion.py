@@ -8,7 +8,7 @@ class TextEmotion(commands.Cog):
         self.bot = bot
 
 
-    async def get_emotion(*args):
+    async def get_emotion(self, *args):
         blob = TextBlob(' '.join(args))
         blob.tags
         blob.noun_phrases
@@ -41,20 +41,20 @@ class TextEmotion(commands.Cog):
 
         return emotion, subjective
     
-    async def get_text(emotion, objectivness)
+    async def get_text(self, srv_id: str, emotion, objectivness):
         hist_cog = self.bot.get_cog('History')
-        rand_msg = await hist_cog.get_random_messages(ctx, num_regs)
+        rand_msg = await hist_cog.get_random_messages(srv_id, 1)
 
-        catagory  = await self.get_emotion(rand)
+        catagory  = await self.get_emotion(rand_msg[0])
         rand_emotion      = catagory[0]
         rand_objectivness = catagory[1]
 
-        if (rand_objectivness == objectivness or objectivness is None)
+        if ((rand_objectivness == objectivness or objectivness is None)
             and (rand_emotion == emotion or emotion is None)):
             print(rand_emotion, rand_objectivness)
-            return rand_msgs
+            return rand_msg
         else:
-            return get_text(emotion, objectivness)
+            return await self.get_text(srv_id, emotion, objectivness)
 
         
         

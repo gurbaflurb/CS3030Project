@@ -41,7 +41,7 @@ class Memes(commands.Cog):
             for i in range(num_regs):
                 emotion       = meme_obj.emotions[i]
                 objectiveness = meme_obj.objectiveness[i]
-                rand += await emotion_cog.get_text(emotion, ojbectiveness)
+                rand += await emotion_cog.get_text(srv_id, emotion, objectiveness)
             meme_obj.create_meme(rand, image_dirs)
         else:
             meme_obj.create_meme(arg, image_dirs)
@@ -75,12 +75,6 @@ class Memes(commands.Cog):
         await ctx.channel.send(file=discord.File(temp_image_name))
 
 
-    @meme.error
-    async def meme_error(self, ctx, error):
-        if isinstance(error, KeyError):
-            await ctx.channel.send(f"meme template specified does not exist or could not be found!")
-        else:
-            await ctx.send(f"An  error has occured oof:\n !f{error}")
 
 
     @commands.command(name="addimg")
