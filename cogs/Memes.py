@@ -19,8 +19,8 @@ class Memes(commands.Cog):
         self.bot = bot
         self.memedb = shelve.open('memes.db')
 
-    @commands.command(name="meme")
-    async def meme(self, ctx, meme_name="drake", *args):
+    @commands.command(name="meme-quote")
+    async def meme_quote(self, ctx, meme_name="drake", *args):
         meme_obj = self.memedb[str(meme_name)]
         num_regs = meme_obj.num_text_regs
 
@@ -36,7 +36,25 @@ class Memes(commands.Cog):
         print(f'sending meme: {meme_name}...')
         await ctx.channel.send(file=discord.File(temp_image_name))
 
-    @meme.error
+    @commands.command(name="meme")
+    async def meme(self, ctx, meme_name="drake", *args):
+        meme_obj = self.memedb[str(meme_name)]
+        num_regs = meme_obj.num_text_regs
+        srv_id   = str(ctx.guild.id)
+
+        assert len(args) == 0 or len(args) == num_regs,\
+                "incorrect number of arguments"
+
+        if len(args) == 0:
+            mark_cog = self.bot.get_cog('Markov')
+            rand = await mark_cog.get_chain(srv_id, num_regs)
+            meme_obj.create_meme(rand)
+        else:
+            meme_obj.create_meme(args)
+        print(f'sending meme: {meme_name}...')
+        await ctx.channel.send(file=discord.File(temp_image_name))
+
+    @meme_quote.error
     async def meme_error(self, ctx, error):
         if isinstance(error, KeyError):
             await ctx.channel.send(f"meme template specified does not exist or could not be found!")
