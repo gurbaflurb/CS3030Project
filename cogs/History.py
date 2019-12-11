@@ -1,6 +1,7 @@
 from discord.ext import commands
 import discord
 import os
+import re
 import random
 import shelve
 from dotenv import load_dotenv
@@ -162,26 +163,54 @@ class History(commands.Cog):
 
     async def filter_messages(self, messages: list):
         filtered = []
+        url     = re.compile('(?P<url>https?://[^\s]+)')
+        at_user = re.compile('<@([0-9]*)>')
 
         for chat_msg in messages:
+            msg = chat_msg.content
             if (chat_msg.content == '' 
                     or chat_msg.content[0] == '!'
-                    or chat_msg.author.bot):
+                    or chat_msg.author.bot
+                    or url.search(msg) is not None):
                 continue
             else:
-                filtered.append(chat_msg.content)
+                # replace at <@123456789> with properly formatted @user string
+                match = at_user.search(msg)
+                while match is not None:
+                    user = self.bot.get_user(int(match.group(1)))
+                    if user is not None:
+                        user_name = user.name
+                    else:
+                        user_name = "REMOVED_USER"
+                    msg = at_user.sub(f"@{user_name}", msg, 1) 
+                    match = at_user.search(msg)
+                filtered.append(msg)
         return filtered
 
 
-    async def get_history(self, ctx):
-        server = self.db[str(ctx.guild.id)]
+    async def get_history(self, srv_id: str, as_text=False):
+        server = self.db[srv_id]
         history = []
         for channel_history in server.values():
             history += channel_history
-        return history
+
+        if not as_text:
+            return history
+        else:
+            f = open("history_temp.txt", "w")
+            f.write('\n'.join(history))
+            f.close()
+
+
+    @commands.command(name='hist-text')
+    @commands.has_any_role('mod', '@mod')
+    async def text_hist(self, ctx):
+        srv_id = str(ctx.guild.id)
+        await self.get_history(srv_id, as_text=True)
 
 
     async def get_random_messages(self, ctx, num: int):
-        messages  = await self.get_history(ctx)
+        srv_id = str(ctx.guild.id)
+        messages  = await self.get_history(srv_id)
         rand_msgs = [random.choice(messages) for i in range(num)]
         return tuple(rand_msgs)

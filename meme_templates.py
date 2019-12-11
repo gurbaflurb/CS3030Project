@@ -18,7 +18,6 @@ class MemeTemplates():
 
     load_dotenv()
     template_dir    = os.getenv('MEME_TEMPLATE_DIR')
-    image_dir       = os.getenv('IMAGE_DIR')
     default_font    = os.getenv('DEFAULT_FONT')
     temp_image_name = os.getenv('TEMP_IMAGE')
 
@@ -93,7 +92,7 @@ class MemeTemplates():
                 return wrapped_text, fnt_obj
 
 
-    def create_meme(self, captions=()):
+    def create_meme(self, captions=(), image_dirs=[]):
         """
         Create a meme inserting the specified text, or image onto the meme
         template image
@@ -112,13 +111,17 @@ class MemeTemplates():
                 (region[0], region[1]),
                 text, font=fnt_obj, align="center", fill="black")
 
-        images =\
-            [f for f in os.listdir(self.image_dir) 
-            if os.path.isfile(os.path.join(self.image_dir, f))]
+        images = []
+        for image_dir in image_dirs:
+            if not os.path.exists(image_dir):
+                os.makedirs(image_dir)
+
+            images += [os.path.join(image_dir, f) for f in os.listdir(image_dir)
+                       if os.path.isfile(os.path.join(image_dir, f))] 
 
         # paste images onto template
         for region in self.image_regions:
-            rand = os.path.join(self.image_dir, random.choice(images)) 
+            rand = random.choice(images)
             rand_img = Image.open(rand) 
 
             width  = region[2] - region[0]
@@ -143,7 +146,32 @@ drake = MemeTemplates(
     "drake", "drake.jpg", 
     image_regions=[(601,0,1197,591), (601,592,1197,1197)])
 
+news = MemeTemplates(
+    "news", "news.jpg", 
+    image_regions=[(26,206,710,590)], text_regions=[(137,64,720,90)])
+
+prison = MemeTemplates(
+    "prison", "prison.jpg", 
+    text_regions=[(272,258,362,299)])
+
+head_out = MemeTemplates(
+    "head_out", "head_out.jpg", 
+    text_regions=[(0,0,798,73)])
+
+tension = MemeTemplates(
+    "tension", "tension.jpg", 
+    text_regions=[(307,480,600,520)])
+
+first_words = MemeTemplates(
+    "first_words", "first_words.jpg", 
+    text_regions=[(32,360,458,500)])
+
 database = shelve.open('memes.db')
 database[two_buttons.name] = two_buttons
-database[drake.name] = drake
+database[drake.name]       = drake
+database[news.name]        = news
+database[prison.name]      = prison
+database[head_out.name]    = head_out
+database[tension.name]     = tension
+database[first_words.name] = first_words
 database.close()
