@@ -23,7 +23,8 @@ class MemeTemplates():
 
     def __init__(
             self, name: str, img_name: str, fnt_path: str = default_font, 
-            text_regions: list = [], image_regions: list = []):
+            text_regions: list = [], image_regions: list = [],
+            emotions = [None], objectiveness = [None]):
 
         assert os.path.exists(f'./{self.template_dir}/{img_name}'),\
                     "File does not exist"
@@ -37,6 +38,9 @@ class MemeTemplates():
 
         self.num_text_regs  = len(text_regions)
         self.num_image_regs = len(image_regions)
+
+        self.emotions      = emotions
+        self.objectiveness = objectiveness
 
 
     def format_text(self, img_obj, draw, text, region):
@@ -148,7 +152,9 @@ drake = MemeTemplates(
 
 news = MemeTemplates(
     "news", "news.jpg", 
-    image_regions=[(26,206,710,590)], text_regions=[(137,64,720,90)])
+    image_regions=[(26,206,710,590)],
+    text_regions=[(137,64,720,90)],
+    emotions=[None], objectiveness=["Fact"])
 
 prison = MemeTemplates(
     "prison", "prison.jpg", 
