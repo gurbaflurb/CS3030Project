@@ -21,7 +21,7 @@ bot.add_cog(FunAndGames(bot))
 bot.add_cog(History(bot))
 bot.add_cog(Markov(bot))
 bot.add_cog(admin(bot))
-bot.add_listener(admin.word_filter)
+bot.add_listener(admin.on_message)
 
 @bot.event
 async def on_ready():
