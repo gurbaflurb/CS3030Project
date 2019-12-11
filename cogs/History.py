@@ -192,6 +192,7 @@ class History(commands.Cog):
         srv_id = str(ctx.guild.id)
         await self.get_history(srv_id, as_text=True)
 
+
     async def get_random_messages(self, ctx, num: int):
         srv_id = str(ctx.guild.id)
         messages  = await self.get_history(srv_id)

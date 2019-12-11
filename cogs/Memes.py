@@ -10,9 +10,10 @@ from meme_templates import MemeTemplates
 from dotenv import load_dotenv
 
 load_dotenv()
-template_dir    = os.getenv('MEME_TEMPLATE_DIR')
-image_dir       = os.getenv('IMAGE_DIR')
-temp_image_name = os.getenv('TEMP_IMAGE')
+template_dir     = os.getenv('MEME_TEMPLATE_DIR')
+image_dir        = os.getenv('IMAGE_DIR')
+global_image_dir = os.getenv('GLOBAL_IMAGE_DIR')
+temp_image_name  = os.getenv('TEMP_IMAGE')
 
 class Memes(commands.Cog):
     def __init__(self, bot):
@@ -20,28 +21,32 @@ class Memes(commands.Cog):
         self.memedb = shelve.open('memes.db')
 
     @commands.command(name="meme")
-    async def meme_quote(self, ctx, meme_name=None, *args):
+    async def meme(self, ctx, meme_name=None, *args):
         if meme_name == None:
             names = [key for key in self.memedb.keys()]
             meme_name = random.choice(names)
 
         meme_obj = self.memedb[str(meme_name)]
         num_regs = meme_obj.num_text_regs
+        srv_id   = str(ctx.guild.id)
 
         assert len(args) == 0 or len(args) == num_regs,\
                 "incorrect number of arguments"
 
+        image_dirs = [global_image_dir, os.path.join(image_dir, srv_id)]
+
         if len(args) == 0:
             hist_cog = self.bot.get_cog('History')
             rand = await hist_cog.get_random_messages(ctx, num_regs)
-            meme_obj.create_meme(rand)
+            meme_obj.create_meme(rand, image_dirs)
         else:
-            meme_obj.create_meme(args)
+            meme_obj.create_meme(arg, image_dirs)
         print(f'sending meme: {meme_name}...')
         await ctx.channel.send(file=discord.File(temp_image_name))
 
+
     @commands.command(name="meme-rand-text")
-    async def meme(self, ctx, meme_name=None, *args):
+    async def meme_rand(self, ctx, meme_name=None, *args):
 
         if meme_name == None:
             names = [key for key in self.memedb.keys()]
@@ -54,16 +59,19 @@ class Memes(commands.Cog):
         assert len(args) == 0 or len(args) == num_regs,\
                 "incorrect number of arguments"
 
+        image_dirs = [global_image_dir, os.path.join(image_dir, srv_id)]
+
         if len(args) == 0:
             mark_cog = self.bot.get_cog('Markov')
             rand = await mark_cog.get_chain(srv_id, num_regs)
-            meme_obj.create_meme(rand)
+            meme_obj.create_meme(rand, image_dirs)
         else:
-            meme_obj.create_meme(args)
+            meme_obj.create_meme(args, image_dirs)
         print(f'sending meme: {meme_name}...')
         await ctx.channel.send(file=discord.File(temp_image_name))
 
-    @meme_quote.error
+
+    @meme.error
     async def meme_error(self, ctx, error):
         if isinstance(error, KeyError):
             await ctx.channel.send(f"meme template specified does not exist or could not be found!")
@@ -80,7 +88,12 @@ class Memes(commands.Cog):
             assert file_type != None, "file is Not image type"
 
             name = uuid.uuid1()
-            name = f"{image_dir}/{str(name)}.{file_type}"
+            srv_id = str(ctx.guild.id)
+
+            if not os.path.exists(f'{image_dir}/{srv_id}'):
+                os.makedirs(f'{image_dir}/{srv_id}')
+
+            name = f"{image_dir}/{srv_id}/{str(name)}.{file_type}"
 
             print("adding image: " + str(name))
             await ctx.channel.send("adding image: " + str(name))
