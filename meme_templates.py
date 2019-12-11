@@ -143,7 +143,32 @@ drake = MemeTemplates(
     "drake", "drake.jpg", 
     image_regions=[(601,0,1197,591), (601,592,1197,1197)])
 
+news = MemeTemplates(
+    "news", "news.jpg", 
+    image_regions=[(26,206,710,590)], text_regions=[(137,64,720,90)])
+
+prison = MemeTemplates(
+    "prison", "prison.jpg", 
+    text_regions=[(272,258,362,299)])
+
+head_out = MemeTemplates(
+    "head_out", "head_out.jpg", 
+    text_regions=[(0,0,798,73)])
+
+tension = MemeTemplates(
+    "tension", "tension.jpg", 
+    text_regions=[(307,480,600,520)])
+
+first_words = MemeTemplates(
+    "first_words", "first_words.jpg", 
+    text_regions=[(32,360,458,500)])
+
 database = shelve.open('memes.db')
 database[two_buttons.name] = two_buttons
-database[drake.name] = drake
+database[drake.name]       = drake
+database[news.name]        = news
+database[prison.name]      = prison
+database[head_out.name]    = head_out
+database[tension.name]     = tension
+database[first_words.name] = first_words
 database.close()

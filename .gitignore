@@ -5,21 +5,9 @@ tags
 
 *.swp
 *.swo
-
-*.rgb
-*.gif
-*.pgm
-*.pbm
-*.ppm
-*.tiff
-*.rast
-*.xbm
-*.jpg
-*.jpeg
-*.bmp
-*.png
-
 *.db
+
+images/*
 
 history_temp.txt
 
