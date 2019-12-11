@@ -27,16 +27,19 @@ class Memes(commands.Cog):
 
         meme_obj = self.memedb[str(meme_name)]
         num_regs = meme_obj.num_text_regs
+        srv_id   = str(ctx.guild.id)
 
         assert len(args) == 0 or len(args) == num_regs,\
                 "incorrect number of arguments"
 
+        image_dirs = [image_dir, os.path.join(image_dir, srv_id)]
+
         if len(args) == 0:
             hist_cog = self.bot.get_cog('History')
             rand = await hist_cog.get_random_messages(ctx, num_regs)
-            meme_obj.create_meme(rand)
+            meme_obj.create_meme(rand, image_dirs)
         else:
-            meme_obj.create_meme(args)
+            meme_obj.create_meme(arg, image_dirs)
         print(f'sending meme: {meme_name}...')
         await ctx.channel.send(file=discord.File(temp_image_name))
 
@@ -54,12 +57,14 @@ class Memes(commands.Cog):
         assert len(args) == 0 or len(args) == num_regs,\
                 "incorrect number of arguments"
 
+        image_dirs = [image_dir, os.path.join(image_dir, srv_id)]
+
         if len(args) == 0:
             mark_cog = self.bot.get_cog('Markov')
             rand = await mark_cog.get_chain(srv_id, num_regs)
-            meme_obj.create_meme(rand)
+            meme_obj.create_meme(rand, image_dirs)
         else:
-            meme_obj.create_meme(args)
+            meme_obj.create_meme(args, image_dirs)
         print(f'sending meme: {meme_name}...')
         await ctx.channel.send(file=discord.File(temp_image_name))
 
@@ -80,7 +85,12 @@ class Memes(commands.Cog):
             assert file_type != None, "file is Not image type"
 
             name = uuid.uuid1()
-            name = f"{image_dir}/{str(name)}.{file_type}"
+            srv_id = str(ctx.guild.id)
+
+            if not os.path.exists('{image_dir}/{srv_id}'):
+                os.makedirs('{image_dir}/{srv_id}')
+
+            name = f"{image_dir}/{srv_id}/{str(name)}.{file_type}"
 
             print("adding image: " + str(name))
             await ctx.channel.send("adding image: " + str(name))

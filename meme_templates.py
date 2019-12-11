@@ -18,7 +18,6 @@ class MemeTemplates():
 
     load_dotenv()
     template_dir    = os.getenv('MEME_TEMPLATE_DIR')
-    image_dir       = os.getenv('IMAGE_DIR')
     default_font    = os.getenv('DEFAULT_FONT')
     temp_image_name = os.getenv('TEMP_IMAGE')
 
@@ -93,7 +92,7 @@ class MemeTemplates():
                 return wrapped_text, fnt_obj
 
 
-    def create_meme(self, captions=()):
+    def create_meme(self, captions=(), image_dirs=[]):
         """
         Create a meme inserting the specified text, or image onto the meme
         template image
@@ -112,13 +111,19 @@ class MemeTemplates():
                 (region[0], region[1]),
                 text, font=fnt_obj, align="center", fill="black")
 
-        images =\
-            [f for f in os.listdir(self.image_dir) 
-            if os.path.isfile(os.path.join(self.image_dir, f))]
+
+
+        images = []
+        for image_dir in image_dirs:
+            if not os.path.exists(image_dir):
+                os.makedirs(image_dir)
+
+            images += [os.path.join(image_dir, f) for f in os.listdir(image_dir)
+                       if os.path.isfile(os.path.join(image_dir, f))] 
 
         # paste images onto template
         for region in self.image_regions:
-            rand = os.path.join(self.image_dir, random.choice(images)) 
+            rand = random.choice(images)
             rand_img = Image.open(rand) 
 
             width  = region[2] - region[0]
