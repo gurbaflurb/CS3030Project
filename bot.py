@@ -9,6 +9,7 @@ from cogs.FunAndGames import FunAndGames
 from cogs.History import History
 from cogs.Markov import Markov
 from cogs.admin import admin
+from cogs.TextEmotion import TextEmotion
 
 # load environment variables (relavent ones are stored in .env)
 load_dotenv()
@@ -21,6 +22,7 @@ bot.add_cog(FunAndGames(bot))
 bot.add_cog(History(bot))
 bot.add_cog(Markov(bot))
 bot.add_cog(admin(bot))
+bot.add_cog(TextEmotion(bot))
 bot.add_listener(admin.on_message)
 
 @bot.event
