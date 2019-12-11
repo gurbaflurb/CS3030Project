@@ -111,8 +111,6 @@ class MemeTemplates():
                 (region[0], region[1]),
                 text, font=fnt_obj, align="center", fill="black")
 
-
-
         images = []
         for image_dir in image_dirs:
             if not os.path.exists(image_dir):
