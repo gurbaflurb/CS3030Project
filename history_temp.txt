@@ -1,0 +1,395 @@
+I made this server so we can mess around with the bot, here's the Authentication token so you can try it out when you're making edits and such ```
+NjI1NzExMjk0NzM3MDIyOTg4.XZQLwg.E0isCNv-RfUp6i-bqjNS2IwrafM
+```
+alright
+$HELLO
+$hello
+ahhh yes very cool
+$hello
+I killed it
+```
+Great!!! Love it. Very interesting project. Make sure the memes are not created randomly. Everything you do should have a reason. You can even search for libraries that by passing a text, they output if the text is happy or sad, etc. (https://github.com/tlkh/text-emotion-classification) With that you could make your memes more accurate. Looking forward to it!
+```
+Can you check to see if this zenhub link works for you? https://app.zenhub.com/workspaces/memebot-5d941732c8e4d80001227d92/board?repos=206346637
+I shouldve added you as a contributer so you should be able to change stuff
+I can see it
+cool
+$countDown
+Thank you
+Ur welcome
+$echo This is a test meme
+lmao
+thank you fo this garbage
+$echo
+$echo I echo things now
+oh
+$echo echo this
+<@202333164952223744> you might wanna just mute this channel since its just gonna be aids
+$echo test
+$echo test
+fuck
+$echo test
+fuck
+$echo test
+$echo poop
+$history
+$history
+$history
+$history
+$history
+$history
+$history
+$history
+I'll get working on this project tomorrow or saturday
+aight, i'm just trying to figure out how to get the chat history
+I can spin up an AWS server for us to deploy the bot on if you want
+do you have the link for the tutorial you were following?
+sure
+https://discordpy.readthedocs.io/en/latest/api.html?highlight=history#emoji
+thanks
+just the documentation
+ok
+aight, i'll spin up an AWS machine for us to use
+give me one sec
+also i've been trying to follow what my friend did for his bot https://github.com/notderw/Penelope/blob/master/bot.py
+Here's the ssh key for the new instance
+the ip is `18.222.48.164`
+user is `ec2-user`
+$history
+$history
+so if I want to change something with the bot what do I do
+is it on your computer currently?
+yea but I only have like 2 lines changed
+okay
+I started reading through a tutorial
+kk
+for the github should we just have our own env folder locally, because I am having trouble with your env
+I was having trouble with it too, not sure what the issue was
+havn't had much luck with using on are different machines
+what?
+*havn't had much luck with using envs on different machichines
+oh yea, same, I'm not sure why it breaks
+my mind says one thing and my fingers type something else
+moooooood, honestly i'll probs just make a requirements.txt file so you know what to have installed and then just copy/save the bot.py
+we could do the pip freeze thing maybe
+yea
+https://discordpy.readthedocs.io/en/latest/ext/commands/index.html
+https://discordpy.readthedocs.io/en/latest/faq.html#how-do-i-upload-an-image
+this should be a good cheat sheet
+pic
+wrong server
+lmao
+my bot will send random pictures now
+you can check it out on my branch
+you need to change the token in the .env file though
+prob shouldn't store it there long term lol
+I'm use the bot class now, which is a sub class of the client class, but more convient for making bots
+I think it needs to be online
+I keep doing it here by accident
+haha
+yesssss
+it was actually really easy to do that
+Nice
+so for each template I say we should prob store all its info in a shelve module or something
+that would be smart
+text size, text region, font
+and then we can pull from a global list of frases, nouns, verbs, other images ect...
+exactly
+https://cdn.discordapp.com/attachments/380445547498176514/645864139004182547/8oyjvn2pg9w31.png
+$history
+$history
+I noticed your files were using tabs, should I switch from spaces to tabs?
+hmm, mine should be using 4 spaces when I press tab
+almost got cogs working
+cool
+idk where this came from
+I changed nothing and ran it again and it worked
+I pushed my changes to github
+I made a folder for cogs
+ok
+so you should just have to put your own cog classes there
+idk if we want all the cogs to be one file or not but whatever
+you can put the spongebob text in the FunAndGames cog I made
+ok
+If I russian Rouette my self, will I actually get kicked lol? I dont know if I can since i'm owner
+idk if it works at all
+lol
+only mods and admins have tried it
+very true, let me see if I can add someone and force them to play
+okay
+Can you see the playgame channel?
+no
+ok one sec
+how about now?
+yeah
+cool
+i'm trying to get it so that only people with the role player can see just playgame
+seems like it doesn't work
+maybe because of the person who calls the command
+I see
+could do it like !rr username
+and then mods could rr random people
+haha
+I made a pull request
+look at the name of my last commit lol
+haha lol
+finals week is 16th - 19th right?
+ye
+okay
+when is the last db class?
+also we need gem5 integration with our discord bot
+Excuse me
+after you get all your commands set up with cogs, I think the next course of action is to start on the markov chains and that emotion library
+I think you're right
+small pull request on the bot for whenever you get around to it
+```python
+            elif(num is 2):
+                uwuMsg = uwuMsg + " "
+            elif(num is 3):
+                uwuMsg = uwuMsg + " UwU "
+            elif(num in [i for i in range(4,12)]):
+                uwuMsg = uwuMsg + " "
+```
+num is 2 and the last conditional do the same thing right?
+also isn't the last line the same as saying: `num >= 4`
+Made some comments and resolved some of the comments you made
+one sec I'll take a look at makeUwUText function
+https://cdn.discordapp.com/attachments/246736425159098382/651584827975532554/temp.jpg
+this is the best meme so far, it was from the netplay chat in the smash discord
+there was like 100,000+ messages in there
+Test
+Test test
+Test
+Test
+This is a test
+wonderful
+Test
+fuck
+test
+fuck
+test
+bad
+word
+<@223941400205590528> we should put that one on our presentation
+lol ok
+https://docs.google.com/presentation/d/1D0f9l72Cmx5bHuIfN0HqjlFz8FNo-sbs4j29zo5wQTs/edit?usp=sharing
+fuck
+fuck
+ples
+$history
+$history
+$history
+$history
+$history
+$history
+$history
+$history
+$history
+$history
+$history
+$history
+$history
+$history
+$history
+$history
+History
+This is chat history
+blah
+blab
+bloob
+fdkslflds
+Yes
+$history
+$history
+.flatten()
+$history
+$history
+$history
+$history
+$history
+$history
+$history
+$history
+$history
+$history
+$history
+$history
+$history
+$history 32
+$history 42
+$history 42
+$history 42
+$history
+$history 42
+$history 42
+$history $32
+$historyImGay
+$history
+$history
+$history
+Test
+test data
+flurb
+gurbe
+flurbadurb durb
+Help me pls
+There we go
+oh
+I see whats going on
+lmao
+hmmm...
+lmao
+lol wtf
+oh lol
+Wonderful
+long words don't format well
+I'll have to fix that
+oh
+I got a HTTP error 403 forbidden on that first captain falcon picture lol
+lmao
+what
+im gonna merge my branch into yours and resolve any conflicts real quick since we have made some massive changes to our branches
+ookay
+I just pushed again
+really minor change
+updated the requirements.txt
+to newest discord.py version, was running into a bug that they fixed
+currently merging
+okay
+might want to do a git pull
+I did a git pull
+it says already up to date
+I haven't merged yet
+ah okay
+want to make sure it works
+ugh
+well it works so
+merge?
+yea i'll merge my branch to master
+pull request is made, I added you as a reviewer
+alright you can merge
+coolio
+so what is the lib folder exactly?
+I honestly don't know, been there since the beginning for me
+oh well can I just delete it lol
+mine diddn't have it and it worked fine
+sounds good lol
+looks like it works
+I'm going to push to my branch again and then we can merge that to master
+sounds good
+oh my
+lol both our bots are like oh hello
+Someone added like 30 pictures
+lol we have a lot of images now?
+test data
+data
+temp
+data
+more chat
+pls mute me
+am sry
+data
+test
+fdsf
+dsf
+dsfd
+fj
+a
+ls
+help
+data
+tes
+Thanks you
+thanks
+I
+ams
+a
+big
+gay
+hello there
+Hello
+test
+data
+test
+help
+help me
+help me
+Please mr.officer, I promise to be good and not pounce on you
+Please mr.officer, I promise to be good and not pounce on you
+Please mr.officer, I promise to be good and not pounce on you
+Please mr.officer, I promise to be good and not pounce on you
+Please mr.officer, I promise to be good and not pounce on you
+Please mr.officer, I promise to be good and not pounce on you
+Please mr.officer, I promise to be good and not pounce on you
+Please mr.officer, I promise to be good and not pounce on you
+Please mr.officer, I promise to be good and not pounce on you
+Please mr.officer, I promise to be good and not pounce on you
+Please mr.officer, I promise to be good and not pounce on you
+creates random meme based on history <@223941400205590528>
+Please mr.officer, I promise to be good and not pounce on you
+Lol
+lol
+I was working on the bot in class
+lmao I thought thats what I was looking at
+I merged your history cogs
+Please mr.officer, I promise to be good and not pounce on you
+omg tone down the nuzzles hahahaha
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+good enough
+first of all I am not an incel. I literally went on a date a week ago, so I’m not incel. Second, you don’t even know that there are different extremities of incels. I want an egalitarian world, not a gynocentric world. Third, there is a common misconception that all incels want is sex. Yet I am not even ready for sex. Fourth, don’t assume someone’s ideologies based on one thing they said. Just because you can’t handle the truth doesn’t mean you should go out and say “I’m wrong” without validly proving your point. I was mainly going off of science, and apparently most people in the world don’t agree with science if it doesn’t fit their ideologies, even if science is true. That is like even if Trump appeals to you and you agree with his viewpoints on issues, you still vote Clinton because you call yourself a Democrat. So if you could kindly educate yourself a lot more about Incels, TRP, and other related topics before you say stuff, I would appreciate it. But as I know of how stubborn you are, you won’t even consider looking deeply into topics and act like you know so much about them. This is what separates people like you and people like me. I look at both sides of every argument, and choose the one that is most rational, not go off of what other people say is “cool”. I rationally choose what I think is best for myself, my family, my community and my country. If you would like to know more about what I believe in, ask me (I know you won’t and you would still make stupid assumptions about me that aren’t true) in what I believe is right or wrong and not just say random shit that doesn’t align with my ideologies. Ya so please stop saying shit about me that isn’t true.
+oh
+first of all I am not an incel. I literally went on a date a week ago, so I’m not incel. Second, you don’t even know that there are different extremities of incels. I want an egalitarian world, not a gynocentric world. Third, there is a common misconception that all incels want is sex. Yet I am not even ready for sex. Fourth, don’t assume someone’s ideologies based on one thing they said. Just because you can’t handle the truth doesn’t mean you should go out and say “I’m wrong” without validly proving your point. I was mainly going off of science, and apparently most people in the world don’t agree with science if it doesn’t fit their ideologies, even if science is true.
+first of all I am not an incel. I literally went on a date a week ago, so I’m not incel. Second, you don’t even know that there are different extremities of incels. I want an egalitarian world, not a gynocentric world. Third, there is a common misconception that all incels want is sex. Yet I am not even ready for sex. Fourth, don’t assume someone’s ideologies based on one thing they said. Just because you can’t handle the truth doesn’t mean you should go out and say “I’m wrong” without validly proving your point. I was mainly going off of science, and apparently most people in the world don’t agree with science if it doesn’t fit their ideologies, even if science is true. That is like even if Trump appeals to you and you agree with his viewpoints on issues, you still vote Clinton because you call yourself a Democrat. So if you could kindly educate yourself a lot more about Incels, TRP, and other related topics before you say stuff, I would appreciate it. But as I know of how stubborn you are, you won’t even consider looking deeply into topics and act like you know so much about them. This is what separates people like you and people like me. I look at both sides of every argument, and choose the one that is most rational, not go off of what other people say is “cool”. I rationally choose what I think is best for myself, my family, my community and my country. If you would like to know more about what I believe in, ask me (I know you won’t and you would still make stupid assumptions about me that aren’t true) in what I believe is right or wrong and not just say random shit that doesn’t align with my ideologies. Ya so please stop saying shit about me that isn’t true.
+first of all I am not an incel. I literally went on a date a week ago, so I’m not incel. Second, you don’t even know that there are different extremities of incels. I want an egalitarian world, not a gynocentric world. Third, there is a common misconception that all incels want is sex. Yet I am not even ready for sex. Fourth, don’t assume someone’s ideologies based on one thing they said. Just because you can’t handle the truth doesn’t mean you should go out and say “I’m wrong” without validly proving your point. I was mainly going off of science, and apparently most people in the world don’t agree with science if it doesn’t fit their ideologies, even if science is true. That is like even if Trump appeals to you and you agree with his viewpoints on issues, you still vote Clinton because you call yourself a Democrat. So if you could kindly educate yourself a lot more about Incels, TRP, and other related topics before you say stuff, I would appreciate it. But as I know of how stubborn you are, you won’t even consider looking deeply into topics and act like you know so much about them. This is what separates people like you and people like me. I look at both sides of every argument, and choose the one that is most rational, not go off of what other people say is “cool”. I rationally choose what I think is best for myself, my family, my community and my country. If you would like to know more about what I believe in, ask me (I know you won’t and you would still make stupid assumptions about me that aren’t true) in what I believe is right or wrong and not just say random shit that doesn’t align with my ideologies. Ya so please stop saying shit about me that isn’t true.
+This is some chat to be uwu'd
+might want to escape the *
+nah, part of the memem
+but ye i'll escape it
+also can you take a look at my pull request for the bot
+which one?
+add-cog-for-history
+or something like that
+There aren;t any pull requests
+I think I approved and merged that already
+oh you already did a few minutes ago
+first of all I am not an incel. I literally went on a date a week ago, so I’m not incel. Second, you don’t even know that there are different extremities of incels. I want an egalitarian world, not a gynocentric world. Third, there is a common misconception that all incels want is sex. Yet I am not even ready for sex. Fourth, don’t assume someone’s ideologies based on one thing they said. Just because you can’t handle the truth doesn’t mean you should go out and say “I’m wrong” without validly proving your point. I was mainly going off of science, and apparently most people in the world don’t agree with science if it doesn’t fit their ideologies, even if science is true.
+ye
+lmao
+first of all I am not an incel. I literally went on a date a week ago, so I’m not incel. Second, you don’t even know that there are different extremities of incels. I want an egalitarian world, not a gynocentric world. Third, there is a common misconception that all incels want is sex. Yet I am not even ready for sex. Fourth, don’t assume someone’s ideologies based on one thing they said. Just because you can’t handle the truth doesn’t mean you should go out and say “I’m wrong” without validly proving your point. I was mainly going off of science, and apparently most people in the world don’t agree with science if it doesn’t fit their ideologies, even if science is true.
+there we go
+we need this merged so I can mess with the furry in the smash discord
+hahaa
+ok well I'm basically done I just have been refactoring it to make it better
+ahahaha
+so so good XD
+made a pull request if you want to look it over
+oh yea
+its not running
+ok
+but yea, only modifies one file so thats good and easy to look over and review
+fdsfdsfdsjksfdjkgsd
+ASDFGHJKL:POIUYTREWqwertyuiopoiuytrewq
+This is some sample text please UwU
+Please don't hurt me officer, I promise to be a good boy 🙂
+Please don't hurt me officer, I promise to be a good boy 🙂
+quality
+aye
+Yup, now it should be better
+Also re-requested a review
+okay merging
+Hello world, I am here to be a furry
+Hello world, I am here to be a furry
+lol give me a mod role
+Ok try again
+I forgot that admin isn't acutally a role
+>:[
+have to check for that seperately
+if you create a role name mod and assign it to yourself it will work
+there we go
+you have mod too
+cool
+it now grabs the text from the individual channel
+thats also a command only prints in the terminal rn though
+wut
+why are my screenshots corrupted lmao
+there
