@@ -237,8 +237,7 @@ class History(commands.Cog):
         await ctx.send(f"Looks like an error occured:\n f{error}")
 
 
-    async def get_random_messages(self, ctx, num: int):
-        srv_id = str(ctx.guild.id)
+    async def get_random_messages(self, srv_id, num: int):
         messages  = await self.get_history(srv_id)
         rand_msgs = [random.choice(messages) for i in range(num)]
         return tuple(rand_msgs)

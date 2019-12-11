@@ -36,8 +36,12 @@ class Memes(commands.Cog):
         image_dirs = [global_image_dir, os.path.join(image_dir, srv_id)]
 
         if len(args) == 0:
-            hist_cog = self.bot.get_cog('History')
-            rand = await hist_cog.get_random_messages(ctx, num_regs)
+            emotion_cog = self.bot.get_cog('TextEmotion')
+            rand = []
+            for i in range(num_regs):
+                emotion       = meme_obj.emotions[i]
+                objectiveness = meme_obj.objectiveness[i]
+                rand += await emotion_cog.get_text(srv_id, emotion, objectiveness)
             meme_obj.create_meme(rand, image_dirs)
         else:
             meme_obj.create_meme(arg, image_dirs)
