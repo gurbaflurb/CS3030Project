@@ -19,4 +19,6 @@ tags
 *.bmp
 *.png
 
+history_temp.txt
+
 __pycache__
