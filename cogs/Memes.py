@@ -22,38 +22,36 @@ class Memes(commands.Cog):
 
     @commands.command(name="meme")
     async def meme(self, ctx, meme_name=None, *args):
+        # if no meme specified get a random meme
         if meme_name == None:
-            names = [key for key in self.memedb.keys()]
-            meme_name = random.choice(names)
+            meme_name = random.choice([key for key in self.memedb.keys()])
 
-        meme_obj = self.memedb[str(meme_name)]
-        num_regs = meme_obj.num_text_regs
-        srv_id   = str(ctx.guild.id)
-
-        assert len(args) == 0 or len(args) == num_regs,\
-                "incorrect number of arguments"
-
-        image_dirs = [global_image_dir, os.path.join(image_dir, srv_id)]
+        meme_obj     = self.memedb[str(meme_name)]
+        num_captions = meme_obj.num_text_regs
+        emotion_cog  = self.bot.get_cog('TextEmotion')
+        srv_id       = str(ctx.guild.id)
+        image_dirs   = [global_image_dir, os.path.join(image_dir, srv_id)]
+        captions     = []
 
         if len(args) == 0:
-            emotion_cog = self.bot.get_cog('TextEmotion')
-            rand = []
-            for i in range(num_regs):
+            for i in range(num_captions):
                 emotion       = meme_obj.emotions[i]
                 objectiveness = meme_obj.objectiveness[i]
-                rand += await emotion_cog.get_text(srv_id, emotion, objectiveness)
-            meme_obj.create_meme(rand, image_dirs)
+                captions += await emotion_cog.get_text(srv_id, emotion, objectiveness)
+            meme_obj.create_meme(captions, image_dirs)
+        elif len(args) != num_captions:
+            await ctx.send(f"Not enough arguments give, either give none or {num_captions}")
+            return
         else:
             meme_obj.create_meme(arg, image_dirs)
         print(f'sending meme: {meme_name}...')
         await ctx.channel.send(file=discord.File(temp_image_name))
+
     
     @meme.error
     async def meme_error(self, ctx, error):
         if isinstance(error, KeyError):
-            await ctx.channel.send(f"meme template specified does not exist or could not be found!")
-        else:
-            await ctx.send(f"An  error has occured oof:\n !f{error}")
+            await ctx.send(f"meme template specified does not exist or could not be found!")
 
 
     @commands.command(name="meme-rand-text")
