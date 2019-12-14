@@ -86,26 +86,19 @@ class Memes(commands.Cog):
 
     @commands.command(name="addimg")
     async def add_img(self, ctx, url):
+        urllib.request.urlretrieve(url, temp_image_name)
+        file_type = imghdr.what(temp_image_name)
+        if file_type == None:
+            await cxt.send("Invalid File Type")
 
-        try: # Change how the file type is detected, since right now it looks like a text file could be uploaded(ie. anything but a None type will work)
-            urllib.request.urlretrieve(url, temp_image_name)
-            file_type = imghdr.what(temp_image_name)
-            assert file_type != None, "file is Not image type"
+        name   = uuid.uuid1()
+        srv_id = str(ctx.guild.id)
 
-            name = uuid.uuid1()
-            srv_id = str(ctx.guild.id)
+        if not os.path.exists(f'{image_dir}/{srv_id}'):
+            os.makedirs(f'{image_dir}/{srv_id}')
 
-            if not os.path.exists(f'{image_dir}/{srv_id}'):
-                os.makedirs(f'{image_dir}/{srv_id}')
+        image_destination = f"{image_dir}/{srv_id}/{str(name)}.{file_type}"
 
-            name = f"{image_dir}/{srv_id}/{str(name)}.{file_type}"
-
-            print("adding image: " + str(name))
-            await ctx.channel.send("adding image: " + str(name))
-            os.rename("temp.jpg", name)
-        except AssertionError:
-            await ctx.channel.send("Incorrect file type")
-
-    @add_img.error
-    async def add_img_error(self, ctx, error):
-        await ctx.channel.send(f"Oh noes, and error has occured:\n f{error}")
+        print("adding image: " + str(image_destination))
+        await ctx.send("adding image: " + str(image_destination))
+        os.rename(temp_image_name, image_destination)
