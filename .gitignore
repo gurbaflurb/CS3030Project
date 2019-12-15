@@ -7,7 +7,7 @@ tags
 *.swo
 *.db
 
-images/.*
+images/*
 
 history_temp.txt
 
