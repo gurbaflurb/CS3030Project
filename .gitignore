@@ -8,7 +8,6 @@ tags
 *.db
 
 images/*
-images/global
 
 history_temp.txt
 

@@ -69,7 +69,6 @@ class History(commands.Cog):
         channel_ids = [i.id for i in ctx.guild.text_channels]
         await self.save_history(ctx, channel_ids)
 
-
     @save_all_channels.error
     async def save_all_channels_error(self, ctx, error):
         await ctx.send(f"Looks like an error occured:\n f{error}")
@@ -198,18 +197,18 @@ class History(commands.Cog):
                     or chat_msg.author.bot
                     or url.search(msg) is not None):
                 continue
-            # replace at <@123456789> with properly formatted @user string
-            match = at_user.search(msg)
-            while match is not None:
-                user_id = int(match.group(1))
-                user = self.bot.get_user(user_id)
-                if user is not None:
-                    user_name = user.name
-                else:
-                    user_name = "REMOVED_USER"
-                msg = at_user.sub(f"@{user_name}", msg, 1) 
+            else:
+                # replace at <@123456789> with properly formatted @user string
                 match = at_user.search(msg)
-            filtered.append(msg)
+                while match is not None:
+                    user = self.bot.get_user(int(match.group(1)))
+                    if user is not None:
+                        user_name = user.name
+                    else:
+                        user_name = "REMOVED_USER"
+                    msg = at_user.sub(f"@{user_name}", msg, 1) 
+                    match = at_user.search(msg)
+                filtered.append(msg)
         return filtered
 
 
@@ -219,11 +218,23 @@ class History(commands.Cog):
         for channel_history in server.values():
             history += channel_history
 
-        if as_text:
+        if not as_text:
+            return history
+        else:
             f = open("history_temp.txt", "w")
             f.write('\n'.join(history))
             f.close()
-        return history
+
+
+    @commands.command(name='hist-text')
+    @commands.has_any_role('mod', '@mod')
+    async def text_hist(self, ctx):
+        srv_id = str(ctx.guild.id)
+        await self.get_history(srv_id, as_text=True)
+
+    @text_hist.error
+    async def text_hist_error(self, ctx, error):
+        await ctx.send(f"Looks like an error occured:\n f{error}")
 
 
     async def get_random_messages(self, srv_id, num: int):
