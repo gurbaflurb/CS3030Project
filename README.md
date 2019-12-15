@@ -17,7 +17,8 @@ TEMP_IMAGE="temp.jpg"
 GLOBAL_IMAGE_DIR="images/global"
 ```
 
-also add at least one image to \$GLOBAL_IMAGE_DIR either manually or through !addimg url command on discord
+Also make sure to make the \$IMAGE_DIR folder and the \$GLOBAL_IMAGE_DIR folder and add at least one image in the \$GLOBAL_IMAGE_DIR folder.
+
 
 ### Windows Server
 - On the server you need to run the command `py -3 -m pip install -r requirements.txt`. This will install the dependencies and packages you will need to run this bot.
