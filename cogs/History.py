@@ -227,17 +227,6 @@ class History(commands.Cog):
             f.close()
 
 
-    @commands.command(name='hist-text')
-    @commands.has_any_role('mod', '@mod')
-    async def text_hist(self, ctx):
-        srv_id = str(ctx.guild.id)
-        await self.get_history(srv_id, as_text=True)
-
-    @text_hist.error
-    async def text_hist_error(self, ctx, error):
-        await ctx.send(f"Looks like an error occured:\n f{error}")
-
-
     async def get_random_messages(self, srv_id, num: int):
         messages  = await self.get_history(srv_id)
         rand_msgs = [random.choice(messages) for i in range(num)]
