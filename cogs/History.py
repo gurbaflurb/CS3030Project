@@ -198,18 +198,18 @@ class History(commands.Cog):
                     or chat_msg.author.bot
                     or url.search(msg) is not None):
                 continue
-            else:
-                # replace at <@123456789> with properly formatted @user string
+            # replace at <@123456789> with properly formatted @user string
+            match = at_user.search(msg)
+            while match is not None:
+                user_id = int(match.group(1))
+                user = self.bot.get_user(user_id)
+                if user is not None:
+                    user_name = user.name
+                else:
+                    user_name = "REMOVED_USER"
+                msg = at_user.sub(f"@{user_name}", msg, 1) 
                 match = at_user.search(msg)
-                while match is not None:
-                    user = self.bot.get_user(int(match.group(1)))
-                    if user is not None:
-                        user_name = user.name
-                    else:
-                        user_name = "REMOVED_USER"
-                    msg = at_user.sub(f"@{user_name}", msg, 1) 
-                    match = at_user.search(msg)
-                filtered.append(msg)
+            filtered.append(msg)
         return filtered
 
 
@@ -219,12 +219,11 @@ class History(commands.Cog):
         for channel_history in server.values():
             history += channel_history
 
-        if not as_text:
-            return history
-        else:
+        if as_text:
             f = open("history_temp.txt", "w")
             f.write('\n'.join(history))
             f.close()
+        return history
 
 
     async def get_random_messages(self, srv_id, num: int):
