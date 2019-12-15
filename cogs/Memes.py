@@ -82,7 +82,8 @@ class Memes(commands.Cog):
 
     @meme_rand.error
     async def meme_rand_error(self, ctx, error):
-        await ctx.send(f"Looks like an error occured:\n f{error}")
+        if isinstance(error, KeyError):
+            await ctx.send(f"meme template specified does not exist or could not be found!")
 
 
     @commands.command(name="addimg")

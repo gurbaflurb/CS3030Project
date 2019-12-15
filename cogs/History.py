@@ -69,6 +69,7 @@ class History(commands.Cog):
         channel_ids = [i.id for i in ctx.guild.text_channels]
         await self.save_history(ctx, channel_ids)
 
+
     @save_all_channels.error
     async def save_all_channels_error(self, ctx, error):
         await ctx.send(f"Looks like an error occured:\n f{error}")
@@ -84,7 +85,7 @@ class History(commands.Cog):
         channel_ids = await self.get_channel_ids(ctx, args)
         await self.delete_history(ctx, channel_ids)
 
-    @delete_channels
+    @delete_channels.error
     async def delete_channels_error(self, ctx, error):
         await ctx.send(f"Looks like an error occured:\n f{error}")
 
