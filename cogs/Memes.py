@@ -44,7 +44,7 @@ class Memes(commands.Cog):
             await ctx.send(f"Not enough arguments give, either give none or {len(meme_obj.captions)}")
             return
         else:
-            meme_obj.create_meme(arg, image_dirs)
+            meme_obj.create_meme(args, image_dirs)
         print(f'sending meme: {meme_name}...')
         await ctx.channel.send(file=discord.File(temp_image_name))
 
@@ -75,8 +75,7 @@ class Memes(commands.Cog):
             await ctx.send(f"Not enough arguments give, either give none or {len(meme_obj.captions)}")
             return
         else:
-            print("args!=0")
-            meme_obj.create_meme(arg, image_dirs)
+            meme_obj.create_meme(args, image_dirs)
         print(f'sending meme: {meme_name}...')
         await ctx.channel.send(file=discord.File(temp_image_name))
 

@@ -54,9 +54,15 @@ class History(commands.Cog):
         if len(args) == 0:
             print("No channels specified")
             await ctx.send("No channels specified")
-
         channel_ids = await self.get_channel_ids(ctx, args)
         await self.save_history(ctx, channel_ids)
+
+        srv_id = str(ctx.guild.id)
+        markov_cog  = self.bot.get_cog('Markov')
+        emotion_cog = self.bot.get_cog('TextEmotion')
+        await markov_cog.generate_markov(srv_id)
+        await emotion_cog.generate_emotion_db(srv_id)
+        await ctx.send("Generated markov and emotion database")
 
     @save_channels.error
     async def save_chennels_error(self, ctx, error):
@@ -68,6 +74,13 @@ class History(commands.Cog):
     async def save_all_channels(self, ctx):
         channel_ids = [i.id for i in ctx.guild.text_channels]
         await self.save_history(ctx, channel_ids)
+
+        srv_id = str(ctx.guild.id)
+        markov_cog  = self.bot.get_cog('Markov')
+        emotion_cog = self.bot.get_cog('TextEmotion')
+        await markov_cog.generate_markov(srv_id)
+        await emotion_cog.generate_emotion_db(srv_id)
+        await ctx.send("Generated markov and emotion database")
 
 
     @save_all_channels.error
