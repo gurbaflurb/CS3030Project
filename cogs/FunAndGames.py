@@ -6,6 +6,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 image_dir = os.getenv('IMAGE_DIR')
+global_image_dir = os.getenv('GLOBAL_IMAGE_DIR')
 
 class FunAndGames(commands.Cog):
 
@@ -23,7 +24,7 @@ class FunAndGames(commands.Cog):
 
     @commands.command(name="woaj")
     async def woaj(self, ctx):
-        await ctx.channel.send(file=discord.File(f'{image_dir}/woaj.jpg'))
+        await ctx.channel.send(file=discord.File(f'{global_image_dir}/woaj.jpg'))
 
     @woaj.error
     async def woaj_error(self, ctx, error):
