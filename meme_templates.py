@@ -21,8 +21,10 @@ class MemeTemplates():
     default_font    = os.getenv('DEFAULT_FONT')
     temp_image_name = os.getenv('TEMP_IMAGE')
 
-    def __init__( self, name: str, img_name: str, fnt_path: str = default_font,
-            image_regions: list = [], captions: list = []):
+    def __init__(
+            self, name: str, img_name: str, fnt_path: str = default_font, 
+            text_regions: list = [], image_regions: list = [],
+            emotions = [None], objectiveness = [None]):
 
         assert os.path.exists(f'./{self.template_dir}/{img_name}'),\
                     "File does not exist"
@@ -31,8 +33,14 @@ class MemeTemplates():
         self.name          = name
         self.img_path      = './' + self.template_dir + '/' +  img_name
         self.fnt_path      = fnt_path
+        self.text_regions  = text_regions
         self.image_regions = image_regions
-        self.captions      = captions
+
+        self.num_text_regs  = len(text_regions)
+        self.num_image_regs = len(image_regions)
+
+        self.emotions      = emotions
+        self.objectiveness = objectiveness
 
 
     def format_text(self, img_obj, draw, text, region):
@@ -88,21 +96,21 @@ class MemeTemplates():
                 return wrapped_text, fnt_obj
 
 
-    def create_meme(self, messages=[], image_dirs=[]):
+    def create_meme(self, captions=(), image_dirs=[]):
         """
         Create a meme inserting the specified text, or image onto the meme
         template image
         """
         img_obj = Image.open(self.img_path)
         draw    = ImageDraw.Draw(img_obj) 
-
         i = 0
-        for caption in self.captions:
-            region = caption["region"]
+
+        for region in self.text_regions:
             # get formated text, and its size
-            text, fnt_obj = self.format_text(img_obj, draw, messages[i], region)
+            text, fnt_obj = self.format_text(img_obj, draw, captions[i], region)
             i += 1
 
+            #draw.rectangle(list(self.text_regions[i]), outline="red")
             draw.multiline_text(
                 (region[0], region[1]),
                 text, font=fnt_obj, align="center", fill="black")
@@ -131,39 +139,45 @@ class MemeTemplates():
 
 
 
-two_buttons = MemeTemplates("two-buttons", "two-buttons.jpg")
-two_buttons.captions = [
-    {"region": (62,84,230,170),  "emotion": "Happy", "subjective": None},
-    {"region": (260,50,448,126), "emotion": "Sad",   "subjective": None}
-]
+two_buttons = MemeTemplates(
+    "two-buttons", "two-buttons.jpg", 
+    text_regions=[(62,84,230,170), (260,50,448,126)],
+    emotions=["Happy","Sad"],
+    objectiveness=[None, None])
 
-drake = MemeTemplates("drake", "drake.jpg")
-drake.image_regions=[(601,0,1197,591), (601,592,1197,1197)]
+drake = MemeTemplates(
+    "drake", "drake.jpg", 
+    image_regions=[(601,0,1197,591), (601,592,1197,1197)])
 
-news = MemeTemplates("news", "news.jpg", image_regions=[(26,206,710,590)])
-news.captions = [
-    {"region": (137,64,720,90), "emotion": None, "subjective": "Fact"}
-]
+news = MemeTemplates(
+    "news", "news.jpg", 
+    image_regions=[(26,206,710,590)],
+    text_regions=[(137,64,720,90)],
+    emotions=[None], objectiveness=["Fact"])
 
-prison = MemeTemplates("prison", "prison.jpg")
-prison.captions = [
-    {"region": (272,258,362,299), "emotion": "Sad", "subjective": None}
-]
+prison = MemeTemplates(
+    "prison", "prison.jpg", 
+    text_regions=[(272,258,362,299)],
+    emotions=["Sad"],
+    objectiveness=[None])
 
-head_out = MemeTemplates("head_out", "head_out.jpg")
-head_out.captions = [
-    {"region": (0,0,798,73), "emotion": None, "subjective": "Opinion"}
-]
+head_out = MemeTemplates(
+    "head_out", "head_out.jpg", 
+    text_regions=[(0,0,798,73)],
+    emotions=[None],
+    objectiveness=["Opinion"])
 
-tension = MemeTemplates("tension", "tension.jpg")
-tension.captions = [
-    {"region": (307,480,600,520), "emotion": "Sad", "subjective": None}
-]
+tension = MemeTemplates(
+    "tension", "tension.jpg", 
+    text_regions=[(307,480,600,520)],
+    emotions=["Sad"], 
+    objectiveness=[None])
 
-first_words = MemeTemplates( "first_words", "first_words.jpg")
-first_words.captions = [
-    {"region": (32,360,458,500), "emotion": None, "subjective": None}
-]
+first_words = MemeTemplates(
+    "first_words", "first_words.jpg", 
+    text_regions=[(32,360,458,500)],
+    emotions=[None], 
+    objectiveness=[None])
 
 database = shelve.open('memes.db')
 database[two_buttons.name] = two_buttons
