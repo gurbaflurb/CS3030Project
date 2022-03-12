@@ -8,7 +8,7 @@ idna==2.8
 markovify==0.7.2
 multidict==4.5.2
 nltk==3.6.6
-Pillow==9.0.0
+Pillow==9.0.1
 python-dotenv==0.10.3
 six==1.13.0
 textblob==0.15.3
