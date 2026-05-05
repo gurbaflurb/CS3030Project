@@ -9,7 +9,7 @@ markovify==0.7.2
 multidict==4.5.2
 nltk==3.9.4
 Pillow==12.2.0
-python-dotenv==0.10.3
+python-dotenv==1.2.2
 six==1.13.0
 textblob==0.15.3
 Unidecode==1.1.1
